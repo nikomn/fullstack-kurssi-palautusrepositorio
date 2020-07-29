@@ -17,9 +17,20 @@ const Statistics = (props) => {
   const all = props.good + props.neutral + props.bad
   const avr = (props.good * 1 + props.neutral * 0 + props.bad * -1) / all
   const positive = props.good / all * 100
+
+  if (all === 0) {
+    return (
+      <div>
+        No feedback given yet...
+      </div>
+    )
+  }
   
   return (
     <>
+      <div>GOOD: {props.good}</div>
+      <div>NEUTRAL: {props.neutral}</div>
+      <div>BAD: {props.bad}</div>
       <div>ALL: {all}</div>
       <div>AVARGE: {avr}</div>
       <div>POSITIVE: {positive} %</div>
@@ -42,14 +53,6 @@ const App = () => {
       <button onClick={() => setBad(bad + 1)}>Bad</button>
 
       <h1>Statistics</h1>
-      <div>GOOD: {good}</div>
-      <div>NEUTRAL: {neutral}</div>
-      <div>BAD: {bad}</div>
-      {/* <div>ALL: {(good + neutral + bad)}</div>
-      <div>Avarage: {(good * 1 + neutral * 0 + bad * -1) / (good + neutral + bad)}</div>
-      <div>Positive: {good / (good + neutral + bad) * 100} %</div> */}
-    {/* <div>{(good + neutral + bad) / 3}</div> */}
-      {/* {Stats("good"={good}, "neutral"={neutral}, "bad"={bad})} */}
       <Statistics good={good} neutral={neutral} bad={bad}/>
     </div>
   )
