@@ -12,6 +12,15 @@ import ReactDOM from 'react-dom'
 const handleNeutralClick = () =>
   setClicks({ ...clicks, neutral: clicks.neutral + 1 }) */
 
+const Stats = (props) => {
+  console.log(props)
+  return (
+    <div>
+      ALL: {props.good + props.neutral + props.bad} 
+    </div>
+  )
+}
+
 const App = () => {
   // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0)
@@ -30,6 +39,11 @@ const App = () => {
       <div>GOOD: {good}</div>
       <div>NEUTRAL: {neutral}</div>
       <div>BAD: {bad}</div>
+      <div>ALL: {(good + neutral + bad)}</div>
+      <div>Avarage: {(good * 1 + neutral * 0 + bad * -1) / (good + neutral + bad)}</div>
+      <div>Positive: {good / (good + neutral + bad) * 100} %</div>
+    {/* <div>{(good + neutral + bad) / 3}</div> */}
+      {/* {Stats("good"={good}, "neutral"={neutral}, "bad"={bad})} */}
     </div>
   )
 }
