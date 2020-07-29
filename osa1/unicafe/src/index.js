@@ -27,24 +27,36 @@ const Statistics = (props) => {
   
   return (
     <>
-      <StatisticLine text="GOOD" value={props.good} />
-      <StatisticLine text="NEUTRAL" value={props.neutral} />
-      <StatisticLine text="BAD" value={props.bad} />
-      <StatisticLine text="ALL" value={all} />
-      <StatisticLine text="AVARGE" value={avr} />
-      <StatisticLine text="POSITIVE" value={positive} />
+      
+
+      <table>
+        <tbody>
+          <StatisticLine2 text="GOOD" value={props.good} />
+          <StatisticLine2 text="NEUTRAL" value={props.neutral} />
+          <StatisticLine2 text="BAD" value={props.bad} />
+          <StatisticLine2 text="ALL" value={all} />
+          <StatisticLine2 text="AVARGE" value={avr} />
+          <StatisticLine2 text="POSITIVE" value={positive} />
+        </tbody>
+      </table>
+
+      
     </>
   )
 }
 
-const StatisticLine = (props) => {
-  console.log(props)
+const StatisticLine2 = (props) => {
   return (
-  <div>{props.text}: {props.value}</div>
-  )
-  
-
+    <tr>
+    <td>{props.text}</td>
+    <td>{props.value}</td>
+    </tr>
+    
+    )
 }
+
+
+
 
 const App = () => {
   // tallenna napit omaan tilaansa
@@ -73,9 +85,6 @@ const App = () => {
       <Button onClick={handleNeutralClick} text='NEUTRAL' />
       <Button onClick={handleBadClick} text='BAD' />
 
-      <button onClick={() => setGood(good + 1)}>Good</button>
-      <button onClick={() => setNeutral(neutral + 1)}>Neutral</button>
-      <button onClick={() => setBad(bad + 1)}>Bad</button>
 
       <h1>Statistics</h1>
       <Statistics good={good} neutral={neutral} bad={bad}/>
