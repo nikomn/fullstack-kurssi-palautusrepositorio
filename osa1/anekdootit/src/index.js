@@ -14,6 +14,13 @@ import ReactDOM from 'react-dom'
 const App = (props) => {
   const [selected, setSelected] = useState(0)
 
+  //const votes = Array.apply(null, new Array(anecdotes.length)).map(Number.prototype.valueOf,0);
+  const [points, setPoints] = useState(Array.apply(null, new Array(anecdotes.length)).map(Number.prototype.valueOf,0))
+
+  
+
+  
+
   const handleClick = () => {
     // ei samaa anekdoottia kahteen kertaan...
     var index = selected
@@ -25,10 +32,29 @@ const App = (props) => {
     setSelected(index)
   }
 
+  const handleVoteClick = () => {
+    //console.log(points)
+    const copy = [...points]
+    //console.log(selected)
+    copy[selected] += 1
+    //console.log(copy[selected])
+    setPoints(copy)
+    //console.log(points)
+    
+    
+    
+  }
+
+  console.log(points)
+
   return (
     <div>
       {props.anecdotes[selected]}
-      <div><button onClick={() => handleClick()}>Get anecdote</button></div>
+      <div>This anecdote has {points[selected]} votes</div>
+      <div>
+        <button onClick={() => handleVoteClick()}>Vote</button>
+        <button onClick={() => handleClick()}>Get anecdote</button>
+        </div>
     </div>
   )
 }
