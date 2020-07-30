@@ -69,6 +69,12 @@ const Total = (props) => {
     total = total + props.parts[i].exercises
   } */
 
+  // Edit:
+  // 2.3*: kurssitiedot step8
+  //Jos et jo niin tehnyt, laske koodissasi tehtävien määrä 
+  // taulukon metodilla reduce.
+  // Tämä tuli näköjään jo "vahingossa" tehtyä step7 kohdassa...
+
   var total = props.parts.reduce((sum, part) => sum + part.exercises, 0)
 
 
