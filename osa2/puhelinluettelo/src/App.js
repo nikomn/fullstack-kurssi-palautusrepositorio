@@ -9,13 +9,33 @@ const App = () => {
 
 
   const addName = (event) => {
+
     event.preventDefault()
     const nameObject = {
       name: newName
     }
+
+    
+    //console.log(persons)
+    //console.log(nameObject.name)
+    
+    //persons.map(person => console.log(person.name))
+    const names = persons.map(person => person.name)
+    //console.log(names)
+    console.log(names.includes(newName))
+
+    if (names.includes(nameObject.name)) {
+      alert(`${newName} is already added to phonebook`)
+      setNewName('')
+    } else {
+      setPersons(persons.concat(nameObject))
+      setNewName('')
+    }
+
+
+    
   
-    setPersons(persons.concat(nameObject))
-    setNewName('')
+    
   }
 
   const handleNameChange = (event) => {
