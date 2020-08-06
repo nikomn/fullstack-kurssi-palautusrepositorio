@@ -40,9 +40,30 @@ const App = () => {
     // console.log(names.includes(newName))
 
     if (names.includes(newName)) {
-      alert(`${newName} is already added to phonebook`)
-      setNewName('')
-      setNewNumber('')
+      const p = persons.find(p => p.name === newName)
+
+      if (newNumber === p.number) {
+        alert(`${newName} is already added to phonebook`)
+        setNewName('')
+        setNewNumber('')
+      } else if (newNumber !== p.number) {
+          const result = window.confirm(`${newName} is already in database with different number. Do you want to update number information?`)
+          if (result) {
+            personService
+              .update(p.id, personObject)
+              .then(returnedPerson => {
+                console.log('Number updated')
+                setPersons(persons.map(person => person.id !== p.id ? person : returnedPerson))
+              })
+            setNewName('')
+            setNewNumber('')
+          }
+
+      }
+
+
+      
+      
     } else {
       personService
         .create(personObject)
