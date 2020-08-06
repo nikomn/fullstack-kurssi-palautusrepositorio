@@ -13,6 +13,7 @@ const App = () => {
   const [ newFilter, setNewFilter ] = useState('')
   const [showAll, setShowAll] = useState(true)
   const [notificationMessage, setNotificationMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   
   
@@ -67,6 +68,15 @@ const App = () => {
                   setNotificationMessage(null)
                 }, 5000)
                 setPersons(persons.map(person => person.id !== p.id ? person : returnedPerson))
+              })
+              .catch(error => {
+                setErrorMessage(
+                  `the person '${p.name}' was already deleted from server!`
+                )
+                setTimeout(() => {
+                  setErrorMessage(null)
+                }, 5000)
+                setPersons(persons.filter(person => person.id !== p.id))
               })
             setNewName('')
             setNewNumber('')
@@ -145,10 +155,23 @@ const App = () => {
     )
   }
 
+  const Error = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+  
+    return (
+      <div className="error">
+        {message}
+      </div>
+    )
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
       <Notification message={notificationMessage} />
+      <Error message={errorMessage} />
 
         <Filter value={newFilter} handleFilterChange={handleFilterChange}/>
         
