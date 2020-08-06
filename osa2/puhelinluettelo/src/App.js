@@ -12,6 +12,7 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
   const [showAll, setShowAll] = useState(true)
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   
   
@@ -43,7 +44,13 @@ const App = () => {
       const p = persons.find(p => p.name === newName)
 
       if (newNumber === p.number) {
-        alert(`${newName} is already added to phonebook`)
+        //alert(`${newName} is already added to phonebook`)
+        setNotificationMessage(
+          `${newName} is already added to phonebook`
+        )
+        setTimeout(() => {
+          setNotificationMessage(null)
+        }, 5000)
         setNewName('')
         setNewNumber('')
       } else if (newNumber !== p.number) {
@@ -53,6 +60,12 @@ const App = () => {
               .update(p.id, personObject)
               .then(returnedPerson => {
                 console.log('Number updated')
+                setNotificationMessage(
+                  `Number for ${newName} updated`
+                )
+                setTimeout(() => {
+                  setNotificationMessage(null)
+                }, 5000)
                 setPersons(persons.map(person => person.id !== p.id ? person : returnedPerson))
               })
             setNewName('')
@@ -68,6 +81,12 @@ const App = () => {
       personService
         .create(personObject)
           .then(returnedPerson => {
+            setNotificationMessage(
+              `Added ${newName}`
+            )
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 5000)
             setPersons(persons.concat(returnedPerson))
             setNewName('')
             setNewNumber('')
@@ -99,6 +118,12 @@ const App = () => {
         .remove(id)
           .then(() => {
             console.log(`${name} removed from database`)
+            setNotificationMessage(
+              `${name} removed from database`
+            )
+            setTimeout(() => {
+              setNotificationMessage(null)
+            }, 5000)
             setPersons(persons.filter(person => person.id !== id))
 
           }
@@ -108,9 +133,22 @@ const App = () => {
     
   }
 
+  const Notification = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+  
+    return (
+      <div className="info">
+        {message}
+      </div>
+    )
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} />
 
         <Filter value={newFilter} handleFilterChange={handleFilterChange}/>
         
