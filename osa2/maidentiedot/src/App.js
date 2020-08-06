@@ -16,7 +16,7 @@ const App = (props) => {
         if (countriesToShow.length > 1 && countriesToShow.length < 11) {
             return (
                 <div>
-                    <ManyCountries countriesToShow={countriesToShow}/>
+                    <ManyCountries countriesToShow={countriesToShow} setNewFilter={setNewFilter}/>
                 </div>
             )
 
@@ -61,6 +61,7 @@ const App = (props) => {
       }
     
       useEffect(hook, [])
+
 
     const countriesToShow = showAll
     ? countries

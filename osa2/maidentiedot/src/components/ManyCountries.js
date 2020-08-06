@@ -1,13 +1,18 @@
 import React from 'react'
 import Country from './Country'
 
-const ManyCountries = ( {countriesToShow} ) => {
+
+const ManyCountries = ( { countriesToShow, setNewFilter } ) => {
     //console.log(countriesToShow)
     return (
         <div>
 
         {countriesToShow.map((country, i) =>
-        <Country key={i} country={country} />
+        <Country 
+            key={i} 
+            country={country} 
+            setNewFilter={setNewFilter}
+            />
     )}
 
 
