@@ -71,6 +71,22 @@ const App = () => {
     }
   }
 
+  const removePerson = (id, name) => {
+    const result = window.confirm(`Do you really want to remove ${name} from database?`)
+    if (result) {
+      personService
+        .remove(id)
+          .then(() => {
+            console.log(`${name} removed from database`)
+            setPersons(persons.filter(person => person.id !== id))
+
+          }
+            
+          )
+    }
+    
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -88,7 +104,11 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
         {personsToShow.map((person, i) =>
-          <Person key={i} person={person} />
+          <Person 
+            key={i} 
+            person={person} 
+            removePerson={() => removePerson(person.id, person.name)}
+            />
         )}
       </ul>
       
