@@ -100,7 +100,20 @@ const App = () => {
             setPersons(persons.concat(returnedPerson))
             setNewName('')
             setNewNumber('')
-          })      
+          })
+          .catch(error => {
+            console.log(error.response.data)
+            const eMsg = JSON.stringify(error.response.data)
+            setErrorMessage(
+              `${eMsg}`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+            setNewName('')
+            setNewNumber('')
+          })
+          
     } 
   }
 
