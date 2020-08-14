@@ -100,7 +100,33 @@ const mostBlogs = (blogs) => {
   //return mostpopular[0][0]
   //return popularAuthor
 
+}
 
+const mostLikes = (blogs) => {
+  const authors = blogs.map(blog => blog.author)
+  const uniqueAuthors = lodash.intersection(authors)
+
+  var x = []
+
+  uniqueAuthors.map(a => x.push(blogs.filter(b => b.author === a)))
+
+  var numOfLikes = []
+
+  for (var i =  0; i < x.length; i++) {
+    numOfLikes.push(x[i].reduce((sum, blog) => sum + blog.likes, 0))
+  }
+
+  const mostLikesIndex = numOfLikes.indexOf(Math.max(...numOfLikes))
+  const numberOfLikes = Math.max(...numOfLikes)
+  const mostLiked = `\{"author":"${uniqueAuthors[mostLikesIndex]}", "likes":${numberOfLikes}\}`
+  //return authors[popularIndex]
+  return JSON.parse(mostLiked)
+
+
+
+
+
+  
 
 }
 
@@ -110,4 +136,5 @@ const mostBlogs = (blogs) => {
     totalLikes,
     favouriteBlog,
     mostBlogs,
+    mostLikes,
   }

@@ -117,6 +117,21 @@ describe('most blogs', () => {
       const mostWritten = '{"author":"Robert C. Martin", "blogs":3}'
       expect(result).toEqual(JSON.parse(mostWritten))
     })
+    
+  })
 
+describe('most likes', () => {
+  
+    test('when list has only one blog equals the author and ammount of likes of that blogs author', () => {
+      const result = listHelper.mostLikes(listWithOneBlog)
+      const mostLiked = '{"author":"Edsger W. Dijkstra", "likes":5}'
+      expect(result).toEqual(JSON.parse(mostLiked))
+    })
+
+    test('when list has many blogs equals the author who has most number of likes on all of those those', () => {
+      const result = listHelper.mostLikes(listWithManyBlogs)
+      const mostLiked = '{"author":"Edsger W. Dijkstra", "likes":17}'
+      expect(result).toEqual(JSON.parse(mostLiked))
+    })
     
   })
