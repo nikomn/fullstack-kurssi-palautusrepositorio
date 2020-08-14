@@ -1,3 +1,5 @@
+var lodash = require('lodash');
+
 const blog = require("../models/blog")
 
 const dummy = (blogs) => {
@@ -54,15 +56,58 @@ const favouriteBlog = (blogs) => {
 
 
   
-
-  
-  
 }
 
+const mostBlogs = (blogs) => {
+
+  const authors = blogs.map(blog => blog.author)
+  const tmp1 = authors.map(a => lodash.countBy(authors, lodash.matches(a)))
+  const tmp2 = tmp1.map(i => i.true)
+
+  const mostWritenIndex = tmp2.indexOf(Math.max(...tmp2))
+  const numberOfBlogs = Math.max(...tmp2)
+  const mostWriten = `\{"author":"${authors[mostWritenIndex]}", "blogs":${numberOfBlogs}\}`
+  //return authors[popularIndex]
+  return JSON.parse(mostWriten)
+  /* var numberOfBlogs = 0
+  tmp2.map(a => )
+
+
+
+  for (var i = 0; i < authors.lenght; i++) {
+    if (tmp2[i] > numberOfBlogs) {
+      numberOfBlogs = tmp2[1]
+      popularAuthor = authors[i]
+      popularIndex = i
+    }
+  }
+ */
+  //blogs.map(blog => console.log(blog.author))
+  //authors.map(a => console.log(a))
+
+  /* var mostpopular = [['', -1]]
+
+  for (var i = 0; i < authors.lenght; i++) {
+    count = authors.filter(n => n == authors[0]).length
+    console.log('Nimi ',authors[0], ' on mukana ', count, ' kertaa')
+    if (count > mostpopular[0][1]) {
+      mostpopular[0][0] = authors[0]
+      mostpopular[0][1] = count
+    }
+  } */
+
+  //array.filter((v) => (v === value)).length;
+  //return mostpopular[0][0]
+  //return popularAuthor
+
+
+
+}
 
   
   module.exports = {
     dummy,
     totalLikes,
     favouriteBlog,
+    mostBlogs,
   }
