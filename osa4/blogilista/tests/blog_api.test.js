@@ -137,7 +137,38 @@ describe('deletion of a blog', () => {
       expect(contents).not.toContain(blogToDelete.title)
     
     })
-  })
+})
+
+describe('updating of a blog', () => {
+    test('updating likes succeeds with status code 200 if id is valid', async () => {
+      const blogsAtStart = await helper.blogsInDb()
+      const blogToUpdate = blogsAtStart[0]
+
+      //blogToUpdate.likes = 9999
+
+      const b = {
+        title: "Canonical string reduction",
+        author: "Edsger W. Dijkstra",
+        url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+        likes: 9999,
+        }
+
+
+      //expect(blogToDelete.id).toBe(0)
+
+      await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(b)
+        .expect(200)
+
+      const blogsAtEnd = await helper.blogsInDb()
+
+      const updatedBlog = blogsAtEnd[0]
+      expect(blogToUpdate.id).toBe(updatedBlog.id)
+      expect(updatedBlog.likes).toBe(9999)
+    
+    })
+})
 
 
 
