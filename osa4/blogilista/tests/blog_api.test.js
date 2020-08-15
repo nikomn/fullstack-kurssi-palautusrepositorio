@@ -20,7 +20,7 @@ beforeEach(async () => {
 test('correct number of blogs are returned', async () => {
     const response = await api.get('/api/blogs')
   
-    expect(response.body).toHaveLength(initialBlogs.length)
+    expect(response.body).toHaveLength(helper.initialBlogs.length)
   })
 
 test('blogs are returned in json form', async () => {
@@ -29,6 +29,16 @@ test('blogs are returned in json form', async () => {
         .expect(200)
         .expect('Content-Type', /application\/json/)
     })
+
+test('blogs identifying field name equals id', async () => {
+    const response = await api.get('/api/blogs')
+    //expect(response.body[0].id).toBeDefined()
+    for (let blog of response.body) {
+        expect(blog.id).toBeDefined()
+
+    }
+    //expect(response.body).toHaveLength(initialBlogs.length)
+})    
 
 afterAll(() => {
     mongoose.connection.close()
