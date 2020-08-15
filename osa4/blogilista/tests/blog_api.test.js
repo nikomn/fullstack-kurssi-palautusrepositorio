@@ -63,6 +63,28 @@ test('new blog can be added ', async () => {
     )
   })
 
+test('new blog added without number of likes defaults to 0 likes', async () => {
+    const newBlog = {
+        title: 'Type wars',
+        author: 'Robert C. Martin',
+        url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1)
+
+    //const contents = blogsAtEnd.map(n => n.title)
+    const addedBlog = blogsAtEnd[blogsAtEnd.length - 1]
+    expect(addedBlog.likes).toBeDefined()
+    expect(addedBlog.likes).toBe(0)
+})
+
 afterAll(() => {
     mongoose.connection.close()
     })
