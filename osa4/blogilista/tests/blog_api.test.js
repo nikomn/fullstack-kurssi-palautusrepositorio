@@ -85,6 +85,38 @@ test('new blog added without number of likes defaults to 0 likes', async () => {
     expect(addedBlog.likes).toBe(0)
 })
 
+describe('adding blog with missing fields', () => {
+    test('new blog added without field title is not added to db', async () => {
+        const newBlog = {
+            author: 'Robert C. Martin',
+            url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
+            likes: 0
+        }
+    
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(400)
+    
+    })
+
+    test('new blog added without field ulr is not added to db', async () => {
+        const newBlog = {
+            title: 'Type wars',
+            author: 'Robert C. Martin',
+            likes: 0
+        }
+    
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(400)
+    
+    })
+})
+
+
+
 afterAll(() => {
     mongoose.connection.close()
     })

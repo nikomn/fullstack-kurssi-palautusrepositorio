@@ -29,18 +29,27 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
 
-  const blog = new Blog({
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes === undefined ? 0 : body.likes,
-  })
+  if (body.title === undefined || body.url === undefined) {
+    //response.status(400)
+    //response.send(400, 'Bad request')
+    response.status(400).send({ error: 'Bad request' })
+  } else {
+    const blog = new Blog({
+      title: body.title,
+      author: body.author,
+      url: body.url,
+      likes: body.likes === undefined ? 0 : body.likes,
+    })
+  
+  
+    //const blog = new Blog(request.body)
+  
+    const savedBlog = await blog.save()
+    response.json(savedBlog.toJSON())
 
+  }
 
-  //const blog = new Blog(request.body)
-
-  const savedBlog = await blog.save()
-  response.json(savedBlog.toJSON())
+  
 })
 
 
