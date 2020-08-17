@@ -3,8 +3,8 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpIiwiaWQiOiI1ZjNhOGFhYjc0ZDBmNjNkZDk5MjFmMmMiLCJpYXQiOjE1OTc2NzI1Nzh9.GIyMdAoIe9tdJhWvgikTPrVxZ_udHWrmVISeOxSyKFc
 
 {
-    "title": "Exile Lifestyle",
-    "author": "Colin Wright",
-    "url": "https://exilelifestyle.com/",
+    "title": "paring ideas 2",
+    "author": "Leo Babauta",
+    "url": "https://mnmlist.com/ideas/",
     "likes": 0
 }
