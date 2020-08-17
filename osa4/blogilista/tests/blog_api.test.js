@@ -6,9 +6,16 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
-
+const jwt = require('jsonwebtoken')
+const logger = require('../utils/logger')
 
 beforeEach(async () => {
+    await User.deleteMany({})
+
+    const passwordHash = await bcrypt.hash('salsainen', 10)
+    const user = new User({ username: 'testitunnus', passwordHash })
+
+    await user.save()
     await Blog.deleteMany({})
   
     let blogObject = new Blog(helper.initialBlogs[0])
@@ -48,9 +55,42 @@ test('new blog can be added ', async () => {
       url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
       likes: 0
     }
-  
+
+    const testUser = {
+        "username": "testitunnus",
+        "password": "salsainen"
+    }
+
+    const request = await api
+      .post('/api/login')
+      .send(testUser)
+
+    //expect(request.body).toBe("sad")
+
+    const token = request.body.token
+    //json(blogs.map(blog => blog.toJSON()))
+    //expect(tokenBody).toBe("asdas")
+
+    /* const passwordHash = await bcrypt.hash('salsainen', 10)
+    const user = new User({ username: 'testitunnus1', passwordHash })
+
+    await user.save() */
+
+    //logger.info(testUser.token)
+
+    //const decodedToken = jwt.verify(token, process.env.SECRET)
+
+    //expect(decodedToken).toBe("ljlkjdsfk")
+
+
+    /* await api
+    .post('/api/login')
+    .send(testUser)
+    .expect(200) */
+    
     await api
       .post('/api/blogs')
+      .set('Authorization', 'bearer ' + token)
       .send(newBlog)
       .expect(200)
       .expect('Content-Type', /application\/json/)
@@ -71,8 +111,20 @@ test('new blog added without number of likes defaults to 0 likes', async () => {
         url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
     }
 
+    const testUser = {
+      "username": "testitunnus",
+      "password": "salsainen"
+    }
+
+    const request = await api
+      .post('/api/login')
+      .send(testUser)
+
+    const token = request.body.token
+
     await api
         .post('/api/blogs')
+        .set('Authorization', 'bearer ' + token)
         .send(newBlog)
         .expect(200)
         .expect('Content-Type', /application\/json/)
@@ -93,9 +145,21 @@ describe('adding blog with missing fields', () => {
             url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
             likes: 0
         }
+
+        const testUser = {
+          "username": "testitunnus",
+          "password": "salsainen"
+        }
+    
+        const request = await api
+          .post('/api/login')
+          .send(testUser)
+    
+        const token = request.body.token
     
         await api
             .post('/api/blogs')
+            .set('Authorization', 'bearer ' + token)
             .send(newBlog)
             .expect(400)
     
@@ -107,30 +171,89 @@ describe('adding blog with missing fields', () => {
             author: 'Robert C. Martin',
             likes: 0
         }
+
+        const testUser = {
+          "username": "testitunnus",
+          "password": "salsainen"
+        }
+    
+        const request = await api
+          .post('/api/login')
+          .send(testUser)
+    
+        const token = request.body.token
     
         await api
             .post('/api/blogs')
+            .set('Authorization', 'bearer ' + token)
             .send(newBlog)
             .expect(400)
     
     })
+
+    test('new blog added without token is not added to db, returns 401 Unauthorized', async () => {
+      const newBlog = {
+          title: 'Type wars',
+          author: 'Robert C. Martin',
+          url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
+          likes: 0
+      }
+
+  
+      await api
+          .post('/api/blogs')
+          .send(newBlog)
+          .expect(401)
+  
+  })
 })
 
 describe('deletion of a blog', () => {
     test('deletion succeeds with status code 204 if id is valid', async () => {
-      const blogsAtStart = await helper.blogsInDb()
-      const blogToDelete = blogsAtStart[0]
+      const newBlog = {
+        title: 'New Blog',
+        author: 'Edsger W. Dijkstra',
+        url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+        likes: 0
+      }
+  
+      const testUser = {
+          "username": "testitunnus",
+          "password": "salsainen"
+      }
+  
+      const request = await api
+        .post('/api/login')
+        .send(testUser)
+  
+      const token = request.body.token
+      
+      await api
+        .post('/api/blogs')
+        .set('Authorization', 'bearer ' + token)
+        .send(newBlog)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
 
-      //expect(blogToDelete.id).toBe(0)
+
+
+      const blogsAtStart = await helper.blogsInDb()
+      const blogToDelete = blogsAtStart[blogsAtStart.length - 1]
+
+      // Check that new blog is actually added...
+      expect(blogsAtStart.length).toBe(helper.initialBlogs.length + 1)
+      const tmp = blogsAtStart.map(n => n.title)
+      expect(tmp).toContain('New Blog')
 
       await api
         .delete(`/api/blogs/${blogToDelete.id}`)
+        .set('Authorization', 'bearer ' + token)
         .expect(204)
 
       const blogsAtEnd = await helper.blogsInDb()
 
       expect(blogsAtEnd).toHaveLength(
-        helper.initialBlogs.length - 1
+        blogsAtStart.length - 1
       )
 
       const contents = blogsAtEnd.map(r => r.title)

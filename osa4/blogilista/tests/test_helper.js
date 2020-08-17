@@ -10,6 +10,7 @@ const initialBlogs = [
         url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
         likes: 12,
         __v: 0
+        
     },
     {
         _id: "5a422b891b54a676234d17fa",
