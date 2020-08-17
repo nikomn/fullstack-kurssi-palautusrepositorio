@@ -4,7 +4,8 @@ const app = require('../app')
 const mongoose = require('mongoose')
 const api = supertest(app)
 const Blog = require('../models/blog')
-
+const bcrypt = require('bcrypt')
+const User = require('../models/user')
 
 
 beforeEach(async () => {
@@ -168,6 +169,134 @@ describe('updating of a blog', () => {
       expect(updatedBlog.likes).toBe(9999)
     
     })
+})
+
+describe('User management', () => {
+  beforeEach(async () => {
+    await User.deleteMany({})
+
+    const passwordHash = await bcrypt.hash('salsainen', 10)
+    const user = new User({ username: 'testitunnus', passwordHash })
+
+    await user.save()
+  })
+
+  test('creation fails if username too short, failed attempt returns status 400 and proper error message', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 't',
+      name: 'Testaaja',
+      password: 'salsa',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect({ error: 'User validation failed: username: Path `username` (`t`) is shorter than the minimum allowed length (3).' })
+      //.expect.stringContaining("error")
+      //.expect.toThrow('error')
+      //.expect("error").toBe("error")
+      //.expect('Content-Type', /application\/json/)
+      //.expect(api.body, /application\/json/)
+
+      //const body = response.map(x => x.text)
+      //expect(body).toContain("shorter than the minimum allowed length")
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+    const usernames = usersAtEnd.map(u => u.username)
+    expect(usernames).not.toContain(newUser.username)
+  })
+
+  test('creation fails if password too short, failed attempt returns status 400 and proper error message', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'testi',
+      name: 'Testaaja',
+      password: 's',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect({ error: 'error creating user! Password is shorter than the minimum allowed length (3)' })
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+    const usernames = usersAtEnd.map(u => u.username)
+    expect(usernames).not.toContain(newUser.username)
+  })
+
+  test('creation fails if password is missing, failed attempt returns status 400 and proper error message', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'testi',
+      name: 'Testaaja',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect({ error: 'password missing' })
+
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+    const usernames = usersAtEnd.map(u => u.username)
+    expect(usernames).not.toContain(newUser.username)
+  })
+
+  test('creation fails if username is missing, failed attempt returns status 400 and proper error message', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      name: 'Testaaja',
+      password: 'salsa'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect({ error: 'User validation failed: username: Path `username` is required.' })
+
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+    const usernames = usersAtEnd.map(u => u.username)
+    expect(usernames).not.toContain(newUser.username)
+  })
+
+  test('creation fails if username is already in database, failed attempt returns status 400 and proper error message', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'testitunnus',
+      name: 'Testaaja',
+      password: 'salsa'
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect({ error: 'User validation failed: username: Error, expected `username` to be unique. Value: `testitunnus`' })
+
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+
+  })
 })
 
 
