@@ -1,0 +1,10 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpIiwiaWQiOiI1ZjNhOGFhYjc0ZDBmNjNkZDk5MjFmMmMiLCJpYXQiOjE1OTc2NzI1Nzh9.GIyMdAoIe9tdJhWvgikTPrVxZ_udHWrmVISeOxSyKFc
+
+{
+    "title": "Exile Lifestyle",
+    "author": "Colin Wright",
+    "url": "https://exilelifestyle.com/",
+    "likes": 0
+}
