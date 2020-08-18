@@ -10,7 +10,9 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [newBlogTitle, setNewBlogTitle] = useState('') 
   const [newBlogAuthor, setNewBlogAuthor] = useState('') 
-  const [newBlogUrl, setNewBlogUrl] = useState('') 
+  const [newBlogUrl, setNewBlogUrl] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -32,18 +34,43 @@ const App = () => {
       const user = await loginService.login({
         username, password,
       })
+      //console.log('User: ', user)
 
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      ) 
-      blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
+      if (user === null) {
+        const eMsg = 'login error! wrong username or password'
+            setErrorMessage(
+              `${eMsg}`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+      } else {
+        window.localStorage.setItem(
+          'loggedBlogappUser', JSON.stringify(user)
+        ) 
+        blogService.setToken(user.token)
+        setUser(user)
+        setUsername('')
+        setPassword('')
+        setNotificationMessage(
+          `Login success for user ${user.name}`
+        )
+        setTimeout(() => {
+          setNotificationMessage(null)
+        }, 5000)
+      }
+
+      
     }
 
   const handleLogout = () => {
     window.localStorage.clear()
+    setNotificationMessage(
+      `Loging out...`
+    )
+    setTimeout(() => {
+      setNotificationMessage(null)
+    }, 500)
     window.location.reload()
   }
 
@@ -59,6 +86,12 @@ const App = () => {
     blogService
       .create(blogObject)
       .then(response => {
+        setNotificationMessage(
+          `Added new blog ${newBlogTitle} by ${newBlogAuthor}`
+        )
+        setTimeout(() => {
+          setNotificationMessage(null)
+        }, 5000)
         setBlogs(blogs.concat(response))
         //console.log(response)
         /* blogService.getAll().then(blogs =>
@@ -136,11 +169,37 @@ const App = () => {
     </form>      
   )
 
+  const Notification = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+  
+    return (
+      <div className="info">
+        {message}
+      </div>
+    )
+  }
+
+  const Error = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+  
+    return (
+      <div className="error">
+        {message}
+      </div>
+    )
+  }
+
 
   if (user === null) {
     return (
       <div>
         <h2>Log in to application</h2>
+        <Notification message={notificationMessage} />
+        <Error message={errorMessage} />
         {loginForm()}
       </div>
     )
@@ -149,6 +208,8 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification message={notificationMessage} />
+      <Error message={errorMessage} />
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p> 
       <h2>create new blog</h2>
       <div>{newBlogForm()}</div>
