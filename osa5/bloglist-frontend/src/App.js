@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import NewBlogForm from './components/NewBlogForm'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -13,6 +15,10 @@ const App = () => {
   const [newBlogUrl, setNewBlogUrl] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  //const [newBlogFormVisible, setNewBlogFormVisible] = useState(false)
+
+  //const noteFormRef = React.createRef()
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -76,6 +82,7 @@ const App = () => {
 
   const addBlog = (event) => {
     event.preventDefault()
+    blogFormRef.current.toggleVisibility()
     
     const blogObject = {
       title: newBlogTitle,
@@ -103,7 +110,7 @@ const App = () => {
       })
   }
 
-  const handleBlogTitleChange = (event) => {
+  /* const handleBlogTitleChange = (event) => {
     //console.log(event.target.value)
     setNewBlogTitle(event.target.value)
   }
@@ -116,34 +123,46 @@ const App = () => {
   const handleBlogUrlChange = (event) => {
     //console.log(event.target.value)
     setNewBlogUrl(event.target.value)
-  }
+  } */
 
   const newBlogForm = () => (
-    <form onSubmit={addBlog}>
-      <div>
-        title
-        <input
-          value={newBlogTitle}
-          onChange={handleBlogTitleChange}
-        />
-      </div>
-      <div>
-        author
-        <input
-          value={newBlogAuthor}
-          onChange={handleBlogAuthorChange}
-        />
-      </div>
-      <div>
-        url
-        <input
-          value={newBlogUrl}
-          onChange={handleBlogUrlChange}
-        />
-      </div>
-      <button type="submit">create</button>
-    </form>
+    <Togglable buttonLabel="new blog" ref={blogFormRef}>
+      <NewBlogForm
+        newBlogTitle={newBlogTitle}
+        newBlogAuthor={newBlogAuthor}
+        newBlogUrl={newBlogUrl}
+        handleBlogTitleChange={({ target }) => setNewBlogTitle(target.value)}
+        handleBlogAuthorChange={({ target }) => setNewBlogAuthor(target.value)}
+        handleBlogUrlChange={({ target }) => setNewBlogUrl(target.value)}
+        addBlog={addBlog}
+      />
+    </Togglable>
   )
+
+  /* const newBlogForm = () => {
+    const hideWhenVisible = { display: newBlogFormVisible ? 'none' : '' }
+    const showWhenVisible = { display: newBlogFormVisible ? '' : 'none' }
+
+    return (
+      <div>
+        <div style={hideWhenVisible}>
+          <button onClick={() => setNewBlogFormVisible(true)}>log in</button>
+        </div>
+        <div style={showWhenVisible}>
+          <NewBlogForm
+            newBlogTitle={newBlogTitle}
+            newBlogAuthor={newBlogAuthor}
+            newBlogUrl={newBlogUrl}
+            handleBlogTitleChange={({ target }) => setNewBlogTitle(target.value)}
+            handleBlogAuthorChange={({ target }) => setNewBlogAuthor(target.value)}
+            handleBlogUrlChange={({ target }) => setNewBlogUrl(target.value)}
+            addBlog={addBlog}
+          />
+          <button onClick={() => setNewBlogFormVisible(false)}>cancel</button>
+        </div>
+      </div>
+    )
+  } */
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
@@ -211,7 +230,6 @@ const App = () => {
       <Notification message={notificationMessage} />
       <Error message={errorMessage} />
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p> 
-      <h2>create new blog</h2>
       <div>{newBlogForm()}</div>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
