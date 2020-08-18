@@ -59,11 +59,11 @@ const App = () => {
     blogService
       .create(blogObject)
       .then(response => {
-        //setBlogs(blogs.concat(response.data))
-        //console.log(response.data)
-        blogService.getAll().then(blogs =>
+        setBlogs(blogs.concat(response))
+        //console.log(response)
+        /* blogService.getAll().then(blogs =>
           setBlogs( blogs )
-        )
+        ) */
         setNewBlogTitle('')
         setNewBlogAuthor('')
         setNewBlogUrl('')
