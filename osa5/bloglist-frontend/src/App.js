@@ -10,9 +10,9 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [newBlogTitle, setNewBlogTitle] = useState('') 
+  /* const [newBlogTitle, setNewBlogTitle] = useState('') 
   const [newBlogAuthor, setNewBlogAuthor] = useState('') 
-  const [newBlogUrl, setNewBlogUrl] = useState('')
+  const [newBlogUrl, setNewBlogUrl] = useState('') */
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   //const [newBlogFormVisible, setNewBlogFormVisible] = useState(false)
@@ -80,62 +80,26 @@ const App = () => {
     window.location.reload()
   }
 
-  const addBlog = (event) => {
-    event.preventDefault()
+  const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
-    
-    const blogObject = {
-      title: newBlogTitle,
-      author: newBlogAuthor,
-      url: newBlogUrl
-    }
-
     blogService
       .create(blogObject)
       .then(response => {
         setNotificationMessage(
-          `Added new blog ${newBlogTitle} by ${newBlogAuthor}`
+          `Added new blog ${blogObject.title} by ${blogObject.author}`
         )
         setTimeout(() => {
           setNotificationMessage(null)
         }, 5000)
         setBlogs(blogs.concat(response))
-        //console.log(response)
-        /* blogService.getAll().then(blogs =>
-          setBlogs( blogs )
-        ) */
-        setNewBlogTitle('')
-        setNewBlogAuthor('')
-        setNewBlogUrl('')
-      })
-  }
+  })
+}
 
-  /* const handleBlogTitleChange = (event) => {
-    //console.log(event.target.value)
-    setNewBlogTitle(event.target.value)
-  }
-
-  const handleBlogAuthorChange = (event) => {
-    //console.log(event.target.value)
-    setNewBlogAuthor(event.target.value)
-  }
-
-  const handleBlogUrlChange = (event) => {
-    //console.log(event.target.value)
-    setNewBlogUrl(event.target.value)
-  } */
+  
 
   const newBlogForm = () => (
     <Togglable buttonLabel="new blog" ref={blogFormRef}>
-      <NewBlogForm
-        newBlogTitle={newBlogTitle}
-        newBlogAuthor={newBlogAuthor}
-        newBlogUrl={newBlogUrl}
-        handleBlogTitleChange={({ target }) => setNewBlogTitle(target.value)}
-        handleBlogAuthorChange={({ target }) => setNewBlogAuthor(target.value)}
-        handleBlogUrlChange={({ target }) => setNewBlogUrl(target.value)}
-        addBlog={addBlog}
-      />
+      <NewBlogForm createBlog={addBlog} />
     </Togglable>
   )
 
