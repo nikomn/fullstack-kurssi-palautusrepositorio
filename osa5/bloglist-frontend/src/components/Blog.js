@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
+//const jwt = require('jsonwebtoken')
 //import React from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, user }) => {
   const [showAllInfo, setShowAllInfo] = useState(false)
 
   const likeBlog = () => {
@@ -29,6 +30,35 @@ const Blog = ({ blog }) => {
     
 
     
+  }
+
+  const deleteBlog = () => {
+    const confirm = window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)
+    if (confirm) {
+      blogService.remove(blog)
+      window.location.reload()
+    }
+
+
+    
+  }
+
+
+  const DeleteButton = ({ user }) => {
+    const userData = JSON.stringify(blog.user)
+    const userDataJSON = JSON.parse(userData)
+    //const decodedToken = jwt.verify(user, process.env.SECRET)
+    //const x = window.localStorage.getItem('user')
+    //console.log(userDataJSON.username, ' vs ', user.username)
+    if (userDataJSON.username === user.username) {
+      return (
+        <div>
+          <button onClick={deleteBlog}>Delete</button>
+        </div>
+      )
+    } else {
+      return ''
+    }
   }
 
   /* const toggleShowInfo = () => {
@@ -72,7 +102,8 @@ const Blog = ({ blog }) => {
           like
         </button> 
         <br />
-        {userDataJSON.name}
+        {userDataJSON.name} <br />
+        <DeleteButton user={user} />
       </div>
       </div>
     )

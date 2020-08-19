@@ -10,6 +10,8 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  //const [userId, setUserId] = useState(null)
+
   /* const [newBlogTitle, setNewBlogTitle] = useState('') 
   const [newBlogAuthor, setNewBlogAuthor] = useState('') 
   const [newBlogUrl, setNewBlogUrl] = useState('') */
@@ -199,7 +201,7 @@ const App = () => {
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p> 
       <div>{newBlogForm()}</div>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} user={user} />
       )}
     </div>
   )
