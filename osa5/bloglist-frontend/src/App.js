@@ -21,9 +21,12 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    blogService.getAll().then(blogs => {
+      const sortedBlog = blogs.sort(function (a, b) {
+        return b.likes - a.likes;
+      });
+      setBlogs( sortedBlog )
+    })  
   }, [])
 
   useEffect(() => {
