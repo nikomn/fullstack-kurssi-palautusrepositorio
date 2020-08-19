@@ -13,7 +13,7 @@ const Blog = ({ blog, user }) => {
     const userDataJSON = JSON.parse(userData)
 
     let updatedLikes = blog.likes + 1
-    
+
     const updatedBlog = {
       user: userDataJSON.id,
       likes: updatedLikes,
@@ -27,9 +27,9 @@ const Blog = ({ blog, user }) => {
 
     blogService.update(updatedBlog)
     window.location.reload()
-    
 
-    
+
+
   }
 
   const deleteBlog = () => {
@@ -40,7 +40,7 @@ const Blog = ({ blog, user }) => {
     }
 
 
-    
+
   }
 
 
@@ -73,7 +73,7 @@ const Blog = ({ blog, user }) => {
 
   //const userName = userDataJSON.name
 
-  //const userData = JSON.parse(blog.user) 
+  //const userData = JSON.parse(blog.user)
 
   //console.log('showAllInfo: ', showAllInfo)
 
@@ -84,43 +84,43 @@ const Blog = ({ blog, user }) => {
     borderWidth: 1,
     marginBottom: 5
   }
-  
+
 
   if (showAllInfo) {
     return (
       <div style={blogStyle}>
-      <div>
-        {blog.title} {blog.author} 
-        <button 
-          onClick={() => setShowAllInfo(!showAllInfo)}>
-          {showAllInfo ? 'hide info' : 'show info' }
-        </button><br />
-        {blog.url} <br />
-        likes {blog.likes} 
-        <button 
-          onClick={likeBlog}>
+        <div>
+          {blog.title} {blog.author}
+          <button
+            onClick={() => setShowAllInfo(!showAllInfo)}>
+            {showAllInfo ? 'hide info' : 'show info' }
+          </button><br />
+          {blog.url} <br />
+        likes {blog.likes}
+          <button
+            onClick={likeBlog}>
           like
-        </button> 
-        <br />
-        {userDataJSON.name} <br />
-        <DeleteButton user={user} />
-      </div>
+          </button>
+          <br />
+          {userDataJSON.name} <br />
+          <DeleteButton user={user} />
+        </div>
       </div>
     )
   } else {
     return (
       <div style={blogStyle}>
-      <div>
-        {blog.title} {blog.author} 
-        <button 
-          onClick={() => setShowAllInfo(!showAllInfo)}>
-          {showAllInfo ? 'hide info' : 'show info' }
-        </button>
+        <div>
+          {blog.title} {blog.author}
+          <button
+            onClick={() => setShowAllInfo(!showAllInfo)}>
+            {showAllInfo ? 'hide info' : 'show info' }
+          </button>
+        </div>
       </div>
-      </div>
-      )
+    )
   }
-  
+
 }
 
 export default Blog

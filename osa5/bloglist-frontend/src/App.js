@@ -7,13 +7,13 @@ import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   //const [userId, setUserId] = useState(null)
 
-  /* const [newBlogTitle, setNewBlogTitle] = useState('') 
-  const [newBlogAuthor, setNewBlogAuthor] = useState('') 
+  /* const [newBlogTitle, setNewBlogTitle] = useState('')
+  const [newBlogAuthor, setNewBlogAuthor] = useState('')
   const [newBlogUrl, setNewBlogUrl] = useState('') */
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
@@ -25,10 +25,10 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs => {
       const sortedBlog = blogs.sort(function (a, b) {
-        return b.likes - a.likes;
-      });
+        return b.likes - a.likes
+      })
       setBlogs( sortedBlog )
-    })  
+    })
   }, [])
 
   useEffect(() => {
@@ -42,42 +42,42 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-      const user = await loginService.login({
-        username, password,
-      })
-      //console.log('User: ', user)
+    const user = await loginService.login({
+      username, password,
+    })
+    //console.log('User: ', user)
 
-      if (user === null) {
-        const eMsg = 'login error! wrong username or password'
-            setErrorMessage(
-              `${eMsg}`
-            )
-            setTimeout(() => {
-              setErrorMessage(null)
-            }, 5000)
-      } else {
-        window.localStorage.setItem(
-          'loggedBlogappUser', JSON.stringify(user)
-        ) 
-        blogService.setToken(user.token)
-        setUser(user)
-        setUsername('')
-        setPassword('')
-        setNotificationMessage(
-          `Login success for user ${user.name}`
-        )
-        setTimeout(() => {
-          setNotificationMessage(null)
-        }, 5000)
-      }
-
-      
+    if (user === null) {
+      const eMsg = 'login error! wrong username or password'
+      setErrorMessage(
+        `${eMsg}`
+      )
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    } else {
+      window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user)
+      )
+      blogService.setToken(user.token)
+      setUser(user)
+      setUsername('')
+      setPassword('')
+      setNotificationMessage(
+        `Login success for user ${user.name}`
+      )
+      setTimeout(() => {
+        setNotificationMessage(null)
+      }, 5000)
     }
+
+
+  }
 
   const handleLogout = () => {
     window.localStorage.clear()
     setNotificationMessage(
-      `Loging out...`
+      'Loging out...'
     )
     setTimeout(() => {
       setNotificationMessage(null)
@@ -97,10 +97,10 @@ const App = () => {
           setNotificationMessage(null)
         }, 5000)
         setBlogs(blogs.concat(response))
-  })
-}
+      })
+  }
 
-  
+
 
   const newBlogForm = () => (
     <Togglable buttonLabel="new blog" ref={blogFormRef}>
@@ -137,7 +137,7 @@ const App = () => {
     <form onSubmit={handleLogin}>
       <div>
         username
-          <input
+        <input
           type="text"
           value={username}
           name="Username"
@@ -146,7 +146,7 @@ const App = () => {
       </div>
       <div>
         password
-          <input
+        <input
           type="password"
           value={password}
           name="Password"
@@ -154,14 +154,14 @@ const App = () => {
         />
       </div>
       <button type="submit">login</button>
-    </form>      
+    </form>
   )
 
   const Notification = ({ message }) => {
     if (message === null) {
       return null
     }
-  
+
     return (
       <div className="info">
         {message}
@@ -173,7 +173,7 @@ const App = () => {
     if (message === null) {
       return null
     }
-  
+
     return (
       <div className="error">
         {message}
@@ -198,7 +198,7 @@ const App = () => {
       <h2>blogs</h2>
       <Notification message={notificationMessage} />
       <Error message={errorMessage} />
-      <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p> 
+      <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
       <div>{newBlogForm()}</div>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} user={user} />
@@ -208,7 +208,7 @@ const App = () => {
 
   /* return (
 
-    
+
     <div>
       {user === null ?
       loginForm() :
@@ -220,7 +220,7 @@ const App = () => {
         )}
       </div>
     }
-      
+
     </div>
   ) */
 }

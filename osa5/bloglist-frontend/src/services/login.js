@@ -6,10 +6,10 @@ const login = async credentials => {
   try {
     const response = await axios.post(baseUrl, credentials)
     return response.data
-  } catch {
+  } catch(error) {
     return null
   }
-  
+
 }
 
 export default { login }
