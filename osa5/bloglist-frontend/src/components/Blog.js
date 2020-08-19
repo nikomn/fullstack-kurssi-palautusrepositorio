@@ -1,8 +1,35 @@
 import React, { useState } from 'react'
+import blogService from '../services/blogs'
 //import React from 'react'
 
 const Blog = ({ blog }) => {
   const [showAllInfo, setShowAllInfo] = useState(false)
+
+  const likeBlog = () => {
+    //console.log('This line of code is run...')
+    const userData = JSON.stringify(blog.user)
+
+    const userDataJSON = JSON.parse(userData)
+
+    let updatedLikes = blog.likes + 1
+    
+    const updatedBlog = {
+      user: userDataJSON.id,
+      likes: updatedLikes,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url,
+      id: blog.id
+    }
+
+    console.log(updatedBlog)
+
+    blogService.update(updatedBlog)
+    window.location.reload()
+    
+
+    
+  }
 
   /* const toggleShowInfo = () => {
     setShowAllInfo(!showAllInfo)
@@ -39,7 +66,12 @@ const Blog = ({ blog }) => {
           {showAllInfo ? 'hide info' : 'show info' }
         </button><br />
         {blog.url} <br />
-        likes {blog.likes} <button>like</button> <br />
+        likes {blog.likes} 
+        <button 
+          onClick={likeBlog}>
+          like
+        </button> 
+        <br />
         {userDataJSON.name}
       </div>
       </div>
