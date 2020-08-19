@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 //import React, {useState} from 'react'
 //import React from 'react'
 
@@ -19,7 +19,6 @@ const NewBlogForm = ({ createBlog }) => {
   const addBlog = (event) => {
     event.preventDefault()
     //blogFormRef.current.toggleVisibility()
-
     createBlog({
       title: newBlogTitle,
       author: newBlogAuthor,
