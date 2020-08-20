@@ -91,7 +91,14 @@ const Blog = ({ blog, user, likeBlog, deleteBlog }) => {
 
   const userData = JSON.stringify(blog.user)
 
-  const userDataJSON = JSON.parse(userData)
+  console.log(userData)
+  var userDataJSON = {}
+
+  if (userData !== undefined) {
+    userDataJSON = JSON.parse(userData)
+  }
+
+
 
   //const userName = userDataJSON.name
 

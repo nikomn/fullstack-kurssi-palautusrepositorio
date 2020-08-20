@@ -9,6 +9,7 @@ const initialBlogs = [
         author: "Edsger W. Dijkstra",
         url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
         likes: 12,
+        user: '5f3ab4e44cd84d7b473f79bc',
         __v: 0
         
     },
@@ -18,6 +19,7 @@ const initialBlogs = [
         author: "Robert C. Martin",
         url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
         likes: 10,
+        user: '5f3ab4e44cd84d7b473f79bc',
         __v: 0
     }  
   ]
