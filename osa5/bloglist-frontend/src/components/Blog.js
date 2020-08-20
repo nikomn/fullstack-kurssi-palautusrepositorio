@@ -1,12 +1,61 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
+//import blogService from '../services/blogs'
 //const jwt = require('jsonwebtoken')
 //import React from 'react'
 
-const Blog = ({ blog, user }) => {
+const DeleteButton = ({ blog, user, deleteBlog }) => {
+  const userData = JSON.stringify(blog.user)
+  const userDataJSON = JSON.parse(userData)
+  //const decodedToken = jwt.verify(user, process.env.SECRET)
+  //const x = window.localStorage.getItem('user')
+  //console.log(userDataJSON.username, ' vs ', user.username)
+
+  /* console.log('Blogtitle: ', blog.title)
+  console.log('User: ', user)
+  console.log('Username on blog : ', userDataJSON.username)
+ */
+  if (user !== undefined && userDataJSON.username === user.username) {
+    return (
+      <div>
+        <button onClick={() => deleteBlog(blog)}>Delete</button>
+      </div>
+    )
+  } else {
+    return ''
+  }
+}
+
+
+const Blog = ({ blog, user, likeBlog, deleteBlog }) => {
   const [showAllInfo, setShowAllInfo] = useState(false)
 
-  const likeBlog = () => {
+  const addLikeToBlog = () => {
+    //console.log('This line of code is run...')
+    const userData = JSON.stringify(blog.user)
+
+    const userDataJSON = JSON.parse(userData)
+
+    //let updatedLikes = blog.likes + 1
+
+    likeBlog({
+      user: userDataJSON.id,
+      likes: blog.likes,
+      author: blog.author,
+      title: blog.title,
+      url: blog.url,
+      id: blog.id
+    })
+
+    //console.log(updatedBlog)
+
+    //blogService.update(updatedBlog)
+    //window.location.reload()
+
+
+
+  }
+
+  /* const likeBlog = () => {
     //console.log('This line of code is run...')
     const userData = JSON.stringify(blog.user)
 
@@ -31,35 +80,8 @@ const Blog = ({ blog, user }) => {
 
 
   }
+ */
 
-  const deleteBlog = () => {
-    const confirm = window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)
-    if (confirm) {
-      blogService.remove(blog)
-      window.location.reload()
-    }
-
-
-
-  }
-
-
-  const DeleteButton = ({ user }) => {
-    const userData = JSON.stringify(blog.user)
-    const userDataJSON = JSON.parse(userData)
-    //const decodedToken = jwt.verify(user, process.env.SECRET)
-    //const x = window.localStorage.getItem('user')
-    //console.log(userDataJSON.username, ' vs ', user.username)
-    if (user !== undefined && userDataJSON.username === user.username) {
-      return (
-        <div>
-          <button onClick={deleteBlog}>Delete</button>
-        </div>
-      )
-    } else {
-      return ''
-    }
-  }
 
   /* const toggleShowInfo = () => {
     setShowAllInfo(!showAllInfo)
@@ -97,13 +119,14 @@ const Blog = ({ blog, user }) => {
           </button><br />
           {blog.url} <br />
         likes {blog.likes}
+          {/* <LikeButton /> */}
           <button
-            onClick={likeBlog}>
+            onClick={addLikeToBlog}>
           like
           </button>
           <br />
           {userDataJSON.name} <br />
-          <DeleteButton user={user} />
+          <DeleteButton user={user} blog={blog} deleteBlog={deleteBlog} />
         </div>
       </div>
     )

@@ -5,6 +5,8 @@ import loginService from './services/login'
 import NewBlogForm from './components/NewBlogForm'
 import Togglable from './components/Togglable'
 
+
+
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
@@ -39,6 +41,50 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const likeBlog = (blogObject) => {
+    //console.log('This line of code is run...')
+    const userData = JSON.stringify(blogObject.user)
+
+    const userDataJSON = JSON.parse(userData)
+
+    let updatedLikes = blogObject.likes + 1
+
+    const updatedBlog = {
+      user: userDataJSON.id,
+      likes: updatedLikes,
+      author: blogObject.author,
+      title: blogObject.title,
+      url: blogObject.url,
+      id: blogObject.id
+    }
+
+    console.log(updatedBlog)
+
+    blogService.update(updatedBlog)
+    window.location.reload()
+  }
+
+  const deleteBlog = (blogObject) => {
+    const confirm = window.confirm(`Remove blog ${blogObject.title} by ${blogObject.author}?`)
+    if (confirm) {
+      blogService.remove(blogObject)
+      window.location.reload()
+    }
+  }
+
+  /* const LikeButton = ({ blog, likeBlog }) => {
+    return (
+      <div>
+        <button
+          onClick={likeBlog}
+          blog=
+        >
+          like
+        </button>
+      </div>
+    )
+  } */
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -201,7 +247,7 @@ const App = () => {
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
       <div>{newBlogForm()}</div>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} user={user} />
+        <Blog key={blog.id} blog={blog} user={user} likeBlog={likeBlog} deleteBlog={deleteBlog} />
       )}
     </div>
   )
