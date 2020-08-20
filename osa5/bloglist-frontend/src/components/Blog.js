@@ -50,7 +50,7 @@ const Blog = ({ blog, user }) => {
     //const decodedToken = jwt.verify(user, process.env.SECRET)
     //const x = window.localStorage.getItem('user')
     //console.log(userDataJSON.username, ' vs ', user.username)
-    if (userDataJSON.username === user.username) {
+    if (user !== undefined && userDataJSON.username === user.username) {
       return (
         <div>
           <button onClick={deleteBlog}>Delete</button>
