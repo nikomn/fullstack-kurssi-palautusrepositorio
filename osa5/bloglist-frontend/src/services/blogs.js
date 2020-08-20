@@ -36,6 +36,7 @@ const update = async updatedBlog => {
   }
   const response = await axios.put(baseUrl + '/' + updatedBlog.id, blogObject, config)
   return response.data
+  //getAll()
 }
 
 const remove = async deletableBlog => {

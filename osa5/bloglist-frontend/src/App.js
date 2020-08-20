@@ -62,7 +62,16 @@ const App = () => {
     console.log(updatedBlog)
 
     blogService.update(updatedBlog)
+    /* blogService.getAll().then(blogs => {
+      const sortedBlog = blogs.sort(function (a, b) {
+        return b.likes - a.likes
+      })
+      setBlogs( sortedBlog )
+    }) */
     window.location.reload()
+
+    //setBlogs(blogs.concat(response))
+
   }
 
   const deleteBlog = (blogObject) => {
@@ -150,7 +159,7 @@ const App = () => {
 
   const newBlogForm = () => (
     <Togglable buttonLabel="new blog" ref={blogFormRef}>
-      <NewBlogForm createBlog={addBlog} />
+      <NewBlogForm createBlog={addBlog} user={user} />
     </Togglable>
   )
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 //import React from 'react'
 
 
-const NewBlogForm = ({ createBlog }) => {
+const NewBlogForm = ({ createBlog, user }) => {
   const [newBlogTitle, setNewBlogTitle] = useState('')
   const [newBlogAuthor, setNewBlogAuthor] = useState('')
   const [newBlogUrl, setNewBlogUrl] = useState('')
@@ -20,6 +20,7 @@ const NewBlogForm = ({ createBlog }) => {
   const addBlog = (event) => {
     event.preventDefault()
     //blogFormRef.current.toggleVisibility()
+    //console.log('New...by... ', user)
     createBlog({
       title: newBlogTitle,
       author: newBlogAuthor,

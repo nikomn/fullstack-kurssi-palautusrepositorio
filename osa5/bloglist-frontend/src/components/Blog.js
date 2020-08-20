@@ -32,13 +32,22 @@ const Blog = ({ blog, user, likeBlog, deleteBlog }) => {
   const addLikeToBlog = () => {
     //console.log('This line of code is run...')
     const userData = JSON.stringify(blog.user)
-
-    const userDataJSON = JSON.parse(userData)
+    //console.log('Debuugi', blog.user)
+    //const userDataJSON = JSON.parse(userData)
+    //var u = '5f3e92820d530f3afa1c2db3'
+    /* try {
+      const userData = JSON.stringify(blog.user)
+      const userDataJSON = JSON.parse(userData)
+      u = userDataJSON.id
+    } catch (e) {
+      console.log('This sometimes works, sometimes not. Now it did not...')
+    } */
 
     //let updatedLikes = blog.likes + 1
 
     likeBlog({
-      user: userDataJSON.id,
+      //user: userDataJSON.id,
+      user: userData,
       likes: blog.likes,
       author: blog.author,
       title: blog.title,
@@ -121,6 +130,7 @@ const Blog = ({ blog, user, likeBlog, deleteBlog }) => {
         <div>
           {blog.title} {blog.author}
           <button
+            id='info-button'
             onClick={() => setShowAllInfo(!showAllInfo)}>
             {showAllInfo ? 'hide info' : 'show info' }
           </button><br />
@@ -128,6 +138,7 @@ const Blog = ({ blog, user, likeBlog, deleteBlog }) => {
         likes {blog.likes}
           {/* <LikeButton /> */}
           <button
+            id='like-button'
             onClick={addLikeToBlog}>
           like
           </button>
