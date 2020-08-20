@@ -88,7 +88,7 @@ const Blog = ({ blog, user }) => {
 
   if (showAllInfo) {
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} className='blog'>
         <div>
           {blog.title} {blog.author}
           <button
@@ -109,7 +109,7 @@ const Blog = ({ blog, user }) => {
     )
   } else {
     return (
-      <div style={blogStyle}>
+      <div style={blogStyle} className='blog'>
         <div>
           {blog.title} {blog.author}
           <button
