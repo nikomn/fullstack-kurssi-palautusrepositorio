@@ -17,7 +17,7 @@ const DeleteButton = ({ blog, user, deleteBlog }) => {
   if (user !== undefined && userDataJSON.username === user.username) {
     return (
       <div>
-        <button onClick={() => deleteBlog(blog)}>Delete</button>
+        <button id='delete-button' onClick={() => deleteBlog(blog)}>Delete</button>
       </div>
     )
   } else {

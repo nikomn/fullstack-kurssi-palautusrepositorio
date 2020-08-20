@@ -34,7 +34,7 @@ describe('Blog app', function() {
         .and('have.css', 'color', 'rgb(255, 0, 0)')
         .and('have.css', 'border-style', 'solid')
   
-      cy.get('html').should('not.contain', 'Matti Luukkainen logged in')
+      cy.get('html').should('not.contain', 'Testi Testaaja logged in')
     })
   })
   
@@ -68,6 +68,55 @@ describe('Blog app', function() {
       
       cy.contains('likes 1')
     })
+
+    it('A blog can be deleted by user who added it', function() {
+      cy.contains('new blog').click()
+      cy.get('#title').type('a blog created by cypress')
+      cy.get('#author').type('cypress automation')
+      cy.get('#url').type('cypress')
+      cy.contains('create').click()
+
+      cy.contains('a blog created by cypress cypress automation')
+      cy.visit('http://localhost:3000')
+      cy.contains('show info').click()
+      cy.get('#delete-button').click()
+
+      cy.get('html').should('not.contain', 'a blog created by cypress')
+    })
+
+  it.only('A blog can not be deleted by user who has not created it', function() {
+      cy.contains('new blog').click()
+      cy.get('#title').type('a blog created by cypress')
+      cy.get('#author').type('cypress automation')
+      cy.get('#url').type('cypress')
+      cy.contains('create').click()
+
+
+      cy.contains('a blog created by cypress cypress automation')
+
+
+      cy.get('#logout-button').click()
+      const otherUser = {
+        name: 'Temp User',
+        username: 'other',
+        password: 'salainen'
+      }
+      cy.request('POST', 'http://localhost:3003/api/users/', otherUser)
+      cy.visit('http://localhost:3000')
+
+      cy.get('#username').type('other')
+      cy.get('#password').type('salainen')
+      cy.get('#login-button').click()
+
+      cy.contains('Temp User logged in')
+      cy.contains('show info').click()
+      cy.get('html').should('not.contain', '#delete-button')
+
+
+
+
+  })
+
 
   })
 })
