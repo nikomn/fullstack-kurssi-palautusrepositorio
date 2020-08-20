@@ -84,7 +84,7 @@ describe('Blog app', function() {
       cy.get('html').should('not.contain', 'a blog created by cypress')
     })
 
-  it.only('A blog can not be deleted by user who has not created it', function() {
+  it('A blog can not be deleted by user who has not created it', function() {
       cy.contains('new blog').click()
       cy.get('#title').type('a blog created by cypress')
       cy.get('#author').type('cypress automation')
