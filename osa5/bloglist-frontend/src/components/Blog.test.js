@@ -96,11 +96,14 @@ test('newblogform calls return funcion with correct props', async () => {
     <NewBlogForm createBlog={createBlog} />
   )
 
-  const title = component.container.querySelector('div.formDiv input[id="title"]')
+  //const title = component.container.querySelector('div.formDiv input[id="title"]')
+  const title = component.container.querySelector('#title')
   //console.log('DEBUG: ', prettyDOM(title))
-  const author = component.container.querySelector('div.formDiv input[id="author"]')
+  //const author = component.container.querySelector('div.formDiv input[id="author"]')
+  const author = component.container.querySelector('#author')
   //console.log('DEBUG: ', prettyDOM(author))
-  const url = component.container.querySelector('div.formDiv input[id="url"]')
+  //const url = component.container.querySelector('div.formDiv input[id="url"]')
+  const url = component.container.querySelector('#url')
   //console.log('DEBUG: ', prettyDOM(url))
   //const title = component.querySelector('input').getByText('title')
   //const title = component.container.querySelector('input').querySelector('title')
