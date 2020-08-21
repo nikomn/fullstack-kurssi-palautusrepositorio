@@ -34,8 +34,8 @@ const reducer = (state = initialState, action) => {
       return state.map(anecdote =>
         anecdote.id !== id ? anecdote : changedAnectode 
       )
-    case 'OK':
-      return state
+    case 'NEW_ANECDOTE':
+      return [...state, action.data]
     case 'BAD':
       return state
     case 'ZERO':
