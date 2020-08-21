@@ -22,7 +22,7 @@ const initialState = anecdotesAtStart.map(asObject)
 const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
-  console.log('actiontype', action.type)
+  //console.log('actiontype', action.type)
   switch (action.type) {
     case 'VOTE':
       const id = action.data.id
@@ -37,24 +37,8 @@ const reducer = (state = initialState, action) => {
       ).sort(function (a, b) {
         return b.votes - a.votes
       })
-      /* return tempVoteState.sort(function (a, b) {
-        return b.votes - a.votes
-      }) */
-
-
-      /* return state.map(anecdote =>
-        anecdote.id !== id ? anecdote : changedAnectode 
-      ) */
-
-      //const sortedBlog = blogs.sort(function (a, b) {
-        //return b.likes - a.likes
-      //})
     case 'NEW_ANECDOTE':
       return [...state, action.data]
-    case 'BAD':
-      return state
-    case 'ZERO':
-      return state
     default:
       return state
   }
