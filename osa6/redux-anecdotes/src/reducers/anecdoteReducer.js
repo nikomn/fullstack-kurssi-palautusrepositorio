@@ -31,9 +31,24 @@ const reducer = (state = initialState, action) => {
         ...anecdoteToChange, 
         votes: anecdoteToChange.votes + 1 
       }
+
       return state.map(anecdote =>
         anecdote.id !== id ? anecdote : changedAnectode 
-      )
+      ).sort(function (a, b) {
+        return b.votes - a.votes
+      })
+      /* return tempVoteState.sort(function (a, b) {
+        return b.votes - a.votes
+      }) */
+
+
+      /* return state.map(anecdote =>
+        anecdote.id !== id ? anecdote : changedAnectode 
+      ) */
+
+      //const sortedBlog = blogs.sort(function (a, b) {
+        //return b.likes - a.likes
+      //})
     case 'NEW_ANECDOTE':
       return [...state, action.data]
     case 'BAD':
