@@ -18,13 +18,13 @@ const counterReducer = (state = initialState, action) => {
     case 'OK':
       const chengedStateOk = {
         ...state,
-        ok: state.good + 1,
+        ok: state.ok + 1,
       }
       return chengedStateOk
     case 'BAD':
       const chengedStateBad = {
         ...state,
-        bad: state.good + 1,
+        bad: state.bad + 1,
       }
       return chengedStateBad
     case 'ZERO':
