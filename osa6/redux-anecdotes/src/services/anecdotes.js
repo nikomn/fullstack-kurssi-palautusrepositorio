@@ -14,4 +14,15 @@ const createNew = async (content) => {
   return response.data
 }
 
-export default { getAll, createNew }
+const update = async (id) => {
+  const object = await axios.get(baseUrl + '/' + id)
+  /* console.log('ennen updatea... ', object)
+  console.log('ennen updatea...data? ', object.data) */
+  const updatedObject = { content: object.data.content, id: object.id, votes: object.data.votes + 1 }
+  //console.log('päivtetty... ', updatedObject)
+  const response = await axios.put(baseUrl + '/' + id, updatedObject)
+  //console.log('jälkeen update... ', response.data)
+  return response.data
+}
+
+export default { getAll, createNew, update }
