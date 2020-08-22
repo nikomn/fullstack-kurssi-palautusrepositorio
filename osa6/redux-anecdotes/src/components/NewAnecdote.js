@@ -29,5 +29,6 @@ const newAnecdote = (props) => {
 
 export default connect(
     null, 
-    {createAnecdote}
+    {createAnecdote},
+    {setNotification}
 )(newAnecdote)
