@@ -26,7 +26,9 @@ const Anecdotes = (props) => {
     const vote = (anecdote) => {
         console.log('vote', anecdote.id)
         props.voteAnecdote(anecdote.id)
-        props.setNotification(`you voted '${anecdote.content}'`, 5)
+        const notification = { "message": `you voted '${anecdote.content}'`, "cue": 1}
+        //props.setNotification(`you voted '${anecdote.content}'`, 5)
+        props.setNotification(notification, 5)
         /* dispatch(notificationChange(`you voted '${anecdote.content}'`))
         setTimeout(() => {
           dispatch(notificationChange(null))
