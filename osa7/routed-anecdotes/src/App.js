@@ -12,6 +12,22 @@ import {
   useHistory,
 } from "react-router-dom"
 
+/* const InputField = props => {
+  const { , ...other } = props;
+  const className = kind === "primary" ? "PrimaryButton" : "SecondaryButton";
+  return <button className={className} {...other} />;
+}; */
+
+const InputField = ({ field }) => {
+  const { reset, ...noReset } = field
+  const newField = {...noReset}
+  return (
+    <input {...newField}/>
+  )
+
+}
+
+
 
 const Menu = () => {
   const padding = {
@@ -95,7 +111,7 @@ const CreateNew = (props) => {
     content.reset()
     author.reset()
     info.reset()
-  }
+  }  
 
 
   return (
@@ -104,15 +120,15 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit} onReset={handleReset}>
         <div>
           content
-          <input  {...content} /> 
+          <InputField field={content} />
         </div>
         <div>
           author
-          <input  {...author} /> 
+          <InputField field={author} />
         </div>
         <div>
           url for more info
-          <input  {...info} /> 
+          <InputField field={info} />
         </div>
         <button type="submit" name="action" value="create">create</button>
         <button type="reset" name="action" value="reset">reset</button>
