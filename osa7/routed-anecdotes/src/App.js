@@ -28,10 +28,24 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => 
+        <li key={anecdote.id} >
+          <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+        </li>)}
     </ul>
   </div>
 )
+
+const Anecdote = ({ anecdote }) => {
+  console.log(anecdote)
+  return (
+    <div>
+      <h2>{anecdote.content}</h2>
+      <p>has {anecdote.votes} votes</p>
+  <p>for more info see <a href={anecdote.info}>{anecdote.info}</a></p>
+    </div>
+  )
+}
 
 const About = () => (
   <div>
@@ -133,12 +147,30 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
+  const match = useRouteMatch('/anecdotes/:id')
+  /* console.log('match: ', match)
+  console.log('id: ', match.params.id)
+  console.log('anecdotes: ', anecdotes)
+  const debugtmp = anecdotes.find(a => a.id === match.params.id)
+  console.log('debug: ', debugtmp)
+  // Vertailu ei toimi  a.id === Number(match.params.id)
+  // koska a.id näyttää olevan string.... 
+  // Toimii siis kumpi tahansa seuraavista:
+  // a.) Number(a.id) === Number(match.params.id)
+  // b.) a.id === match.params.id*/
+  const anecdote = match 
+    ? anecdotes.find(a => Number(a.id) === Number(match.params.id))
+    : null
+
+
   return (
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
-
       <Switch>
+        <Route path="/anecdotes/:id">
+          <Anecdote anecdote={anecdote} />
+        </Route>
         <Route path="/create">
           <CreateNew addNew={addNew} />
         </Route>
