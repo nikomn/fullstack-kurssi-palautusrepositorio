@@ -3,11 +3,9 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import App from './App'
 import store from './store'
-/* import notificationReducer from './reducers/notificationReducer'
-import { createStore } from 'redux'
- */
-//const store = createStore(notificationReducer)
 
+
+//const store = createStore(notificationReducer)
 
 
 ReactDOM.render(

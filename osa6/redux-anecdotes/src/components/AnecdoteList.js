@@ -38,7 +38,7 @@ const Anecdotes = (props) => {
         <div>
           <h2>Anecdotes (with connect!)</h2>
           {props.anecdotes.map(anecdote =>
-            <Anecdote 
+            <Anecdote
                 key={anecdote.id}
                 anecdote={anecdote}
                 handleClick={() => vote(anecdote)}

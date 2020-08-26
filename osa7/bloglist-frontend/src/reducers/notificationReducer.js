@@ -3,6 +3,7 @@ const notificationReducer = (state = { message: null, type: 'success', cue: 0 },
   console.log('not action', action)
   switch (action.type) {
   case 'SET_NOTIFICATION':
+    console.log('SET_NOTIFICATION')
     console.log(state)
     return {
       message: action.notification.message,
