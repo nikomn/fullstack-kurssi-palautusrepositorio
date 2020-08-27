@@ -35,15 +35,32 @@ export const createBlog = content => {
   }
 }
 
-export const likeBlog = (id) => {
+export const likeBlog = (blog) => {
   return async dispatch => {
-    const updatedBlog = await blogService.update(id)
+    const updatedBlog = await blogService.update(blog)
+    console.log('Päivittyy...')
     dispatch({
       type: 'LIKE',
       data: { updatedBlog }
     })
+    const blogs = await blogService.getAll()
+    dispatch({
+      type: 'INIT_BLOGS',
+      data: blogs,
+    })
   }
 
+}
+
+export const removeBlog = id => {
+  return async dispatch => {
+    await blogService.remove(id)
+    const blogs = await blogService.getAll()
+    dispatch({
+      type: 'INIT_BLOGS',
+      data: blogs,
+    })
+  }
 }
 
 export const initializeBlogs = () => {

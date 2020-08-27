@@ -11,6 +11,7 @@ const getConfig = () => {
 
 const getAll = () => {
   const request = axios.get(baseUrl)
+  console.log('getting all done...')
   return request.then(response => response.data)
 }
 
