@@ -7,18 +7,19 @@ import loginService from './services/login'
 import storage from './utils/storage'
 
 import { setReducerNotification } from './reducers/notificationReducer'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
 import BlogList from './components/BlogList'
+import { setReducerUser } from './reducers/loginReducer'
 
 const App = () => {
-  //const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const blogFormRef = React.createRef()
   const dispatch = useDispatch()
+  const userFromReducer = useSelector(state => state.user)
+  //console.log('userFromReducer: ', userFromReducer)
 
 
 
@@ -28,8 +29,8 @@ const App = () => {
 
   useEffect(() => {
     const user = storage.loadUser()
-    setUser(user)
-  }, [])
+    dispatch(setReducerUser(user))
+  }, [dispatch])
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -40,7 +41,7 @@ const App = () => {
 
       setUsername('')
       setPassword('')
-      setUser(user)
+      dispatch(setReducerUser(user))
       const notification = { message: `${user.name} welcome back!`, type: 'success', cue: 1 }
       dispatch(setReducerNotification(notification, 5))
       storage.saveUser(user)
@@ -48,15 +49,16 @@ const App = () => {
       const notification = { message: 'wrong username/password', type: 'error', cue: 1 }
       dispatch(setReducerNotification(notification, 5))
     }
+
   }
 
 
   const handleLogout = () => {
-    setUser(null)
+    dispatch(setReducerUser(null))
     storage.logoutUser()
   }
 
-  if ( !user ) {
+  if ( !userFromReducer ) {
     return (
       <div>
         <h2>login to application</h2>
@@ -95,34 +97,16 @@ const App = () => {
       <Notification />
 
       <p>
-        {user.name} logged in <button onClick={handleLogout}>logout</button>
+        {userFromReducer.name} logged in <button onClick={handleLogout}>logout</button>
       </p>
 
       <Togglable buttonLabel='create new blog'  ref={blogFormRef}>
         <NewBlog />
       </Togglable>
 
-      <BlogList user={user} />
+      <BlogList user={userFromReducer} />
 
-      {/* {dispatch().map(blog =>
-        <Blog
-          key={blog.id}
-          blog={blog}
-          handleLike={handleLike}
-          handleRemove={handleRemove}
-          own={user.username===blog.user.username}
-        />
-      )} */}
 
-      {/* {blogs.sort(byLikes).map(blog =>
-        <Blog
-          key={blog.id}
-          blog={blog}
-          handleLike={handleLike}
-          handleRemove={handleRemove}
-          own={user.username===blog.user.username}
-        />
-      )} */}
     </div>
   )
 }
