@@ -9,8 +9,15 @@ import storage from './utils/storage'
 import { setReducerNotification } from './reducers/notificationReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
+import { initializeUsers } from './reducers/userReducer'
 import BlogList from './components/BlogList'
 import { setReducerUser } from './reducers/loginReducer'
+import UserList from './components/Users'
+
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link
+} from 'react-router-dom'
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -25,6 +32,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializeBlogs())
+    dispatch(initializeUsers())
   }, [dispatch])
 
   useEffect(() => {
@@ -58,9 +66,14 @@ const App = () => {
     storage.logoutUser()
   }
 
+  const padding = {
+    padding: 5
+  }
+
   if ( !userFromReducer ) {
     return (
       <div>
+
         <h2>login to application</h2>
 
         <Notification />
@@ -92,19 +105,41 @@ const App = () => {
 
   return (
     <div>
-      <h2>blogs</h2>
+      <Router>
+        <div>
+          <Link style={padding} to="/">home</Link>
+          <Link style={padding} to="/users">users</Link>
+        </div>
 
-      <Notification />
+        <Switch>
+          <Route path="/users">
+            <h2>blogs</h2>
 
-      <p>
-        {userFromReducer.name} logged in <button onClick={handleLogout}>logout</button>
-      </p>
+            <Notification />
 
-      <Togglable buttonLabel='create new blog'  ref={blogFormRef}>
-        <NewBlog />
-      </Togglable>
+            <p>
+              {userFromReducer.name} logged in <button onClick={handleLogout}>logout</button>
+            </p>
+            <UserList />
+          </Route>
+          <Route path="/">
 
-      <BlogList user={userFromReducer} />
+            <h2>blogs</h2>
+
+            <Notification />
+
+            <p>
+              {userFromReducer.name} logged in <button onClick={handleLogout}>logout</button>
+            </p>
+
+            <Togglable buttonLabel='create new blog'  ref={blogFormRef}>
+              <NewBlog />
+            </Togglable>
+
+            <BlogList user={userFromReducer} />
+          </Route>
+        </Switch>
+      </Router>
 
 
     </div>
