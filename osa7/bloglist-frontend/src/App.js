@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/userReducer'
 import BlogList from './components/BlogList'
+import UserPage from './components/UserPage'
 import { setReducerUser } from './reducers/loginReducer'
 import UserList from './components/Users'
 
@@ -112,6 +113,17 @@ const App = () => {
         </div>
 
         <Switch>
+          <Route path="/users/:id">
+            <h2>blogs</h2>
+
+            <Notification />
+
+            <p>
+              {userFromReducer.name} logged in <button onClick={handleLogout}>logout</button>
+            </p>
+            <UserPage />
+          </Route>
+
           <Route path="/users">
             <h2>blogs</h2>
 
