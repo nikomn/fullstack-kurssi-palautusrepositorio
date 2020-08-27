@@ -12,6 +12,7 @@ import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/userReducer'
 import BlogList from './components/BlogList'
 import UserPage from './components/UserPage'
+import BlogPage from './components/BlogPage'
 import { setReducerUser } from './reducers/loginReducer'
 import UserList from './components/Users'
 
@@ -122,6 +123,16 @@ const App = () => {
               {userFromReducer.name} logged in <button onClick={handleLogout}>logout</button>
             </p>
             <UserPage />
+          </Route>
+          <Route path="/blogs/:id">
+            <h2>blogs</h2>
+
+            <Notification />
+
+            <p>
+              {userFromReducer.name} logged in <button onClick={handleLogout}>logout</button>
+            </p>
+            <BlogPage user={userFromReducer} />
           </Route>
 
           <Route path="/users">

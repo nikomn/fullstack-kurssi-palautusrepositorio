@@ -3,7 +3,21 @@ import PropTypes from 'prop-types'
 
 const Blog = ({ blog, handleLike, handleRemove, own }) => {
 
-  const [visible, setVisible] = useState(false)
+
+  return (
+    <div>
+      <div>
+        <div>{blog.url}</div>
+        <div>likes {blog.likes}
+          <button onClick={() => handleLike(blog.id)}>like</button></div>
+        <div>added by {blog.user.name}
+          {own&&<button onClick={() => handleRemove(blog.id)}>remove</button>}</div>
+      </div>
+    </div>
+  )
+
+
+  /* const [visible, setVisible] = useState(false)
 
   const blogStyle = {
     paddingTop: 10,
@@ -31,7 +45,7 @@ const Blog = ({ blog, handleLike, handleRemove, own }) => {
         </div>
       )}
     </div>
-  )
+  ) */
 }
 
 Blog.propTypes = {
