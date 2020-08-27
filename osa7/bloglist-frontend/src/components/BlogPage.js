@@ -1,6 +1,5 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-//import { likeBlog } from '../reducers/blogReducer'
 import { setReducerNotification } from '../reducers/notificationReducer'
 import Blog from './Blog'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'

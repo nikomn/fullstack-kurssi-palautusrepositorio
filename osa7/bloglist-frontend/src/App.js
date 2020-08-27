@@ -104,7 +104,8 @@ const App = () => {
       </div>
     )
   }
-
+  // 7.16: navigointi Tee sovellukseen navigaatiomenu
+  // Toteutettu vaiheessa 7.13
   return (
     <div>
       <Router>
