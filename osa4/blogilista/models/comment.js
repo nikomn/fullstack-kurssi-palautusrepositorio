@@ -5,6 +5,10 @@ const commentSchema = mongoose.Schema({
     type: String,
     minlength: 5,
     required: true
+  },
+  blog: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Blog'
   }
 })
 

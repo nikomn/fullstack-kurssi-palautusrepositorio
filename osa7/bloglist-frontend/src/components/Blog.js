@@ -1,26 +1,59 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import NewComment from './NewComment'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link, useParams, Redirect
+} from 'react-router-dom'
+
+const Comment = ({ content }) => {
+  return (
+    <li>{content}</li>
+  )
+}
 
 const Blog = ({ blog, handleLike, handleRemove, own }) => {
-  console.log('blog: ', blog)
+  //const dispatch = useDispatch()
+  //console.log('blog: ', blog)
+  const id = useParams().id
+  const blogs = useSelector(state => state.blogs)
+  const comments = useSelector(state => state.comments)
+  //console.log('blogs_at_BLOG: ', blogs)
+  //console.log('comments_at_BLOG: ', comments)
+  const blogFromState = blogs.find(b => b.id === id)
+  const commentsFromState = comments.filter(c => c.blog === id)
+  //console.log('comments_from_State', commentsFromState)
+  //console.log('blog from STATE: ', blogFromState)
+  //console.log('RENDERING COMPONENT BLOG!')
+  //const comments = useSelector(state => state.comments) 
+  //const blogComments = blog.comments.filter(c => c.blog === blog.id)
+  /* console.log('id...', id)
+  const comments = useSelector(state => state.comments)
+  console.log('comments', comments) */
+  //const blogs = useSelector(state => state.comments)
+  //const blogComments = comments.filter(c => c.blog === blog.id)
+  //console.log('blogComments: ', blogComments)
+  /* const blogs = useSelector(state => state.blogs)
+  const blog = blogs.find(b => b.id === blog.id) */
+  //const comments = useSelector(state => state.comments)
+  //const blogComments = blogs.find(c => c.blog === blog.id)
 
 
   return (
     <div>
       <div>
-        <div>{blog.url}</div>
-        <div>likes {blog.likes}
+        <div>{blogFromState.url}</div>
+        <div>likes {blogFromState.likes}
           <button onClick={() => handleLike(blog.id)}>like</button></div>
-        <div>added by {blog.user.name}
+        <div>added by {blogFromState.user.name}
           {own&&<button onClick={() => handleRemove(blog.id)}>remove</button>}</div>
       </div>
       <h2>Comments</h2>
       <ul>
-      {blog.comments.map(comment =>
-        <div key={comment.id}>
-          <li>{comment.content}</li>
-        </div>
-      )}
+        {commentsFromState.map(comment =>
+          <Comment key={comment.id} content={comment.content} />
+        )}
       </ul>
     </div>
   )

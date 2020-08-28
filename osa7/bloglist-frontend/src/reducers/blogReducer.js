@@ -65,7 +65,9 @@ export const removeBlog = id => {
 
 export const initializeBlogs = () => {
   return async dispatch => {
+    console.log('UPDATING BLOGS...')
     const blogs = await blogService.getAll()
+    console.log('blogs now: ', blogs)
     dispatch({
       type: 'INIT_BLOGS',
       data: blogs,

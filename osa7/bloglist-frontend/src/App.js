@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
+import NewComment from './components/NewComment'
 
 import loginService from './services/login'
 import storage from './utils/storage'
@@ -10,6 +11,7 @@ import { setReducerNotification } from './reducers/notificationReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/userReducer'
+import { initializeComments } from './reducers/commentReducer'
 import BlogList from './components/BlogList'
 import UserPage from './components/UserPage'
 import BlogPage from './components/BlogPage'
@@ -35,6 +37,7 @@ const App = () => {
   useEffect(() => {
     dispatch(initializeBlogs())
     dispatch(initializeUsers())
+    dispatch(initializeComments())
   }, [dispatch])
 
   useEffect(() => {
@@ -134,6 +137,7 @@ const App = () => {
               {userFromReducer.name} logged in <button onClick={handleLogout}>logout</button>
             </p>
             <BlogPage user={userFromReducer} />
+            <NewComment />
           </Route>
 
           <Route path="/users">
