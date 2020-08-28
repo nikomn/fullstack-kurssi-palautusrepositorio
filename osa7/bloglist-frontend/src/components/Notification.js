@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Table, Form, Button, Alert, Navbar, Nav } from 'react-bootstrap'
 
 const Notification = (props) => {
   console.log('props: ', props)
@@ -20,9 +21,14 @@ const Notification = (props) => {
     background: 'lightgrey'
   }
 
-  return <div style={style}>
-    {props.notification.message}
-  </div>
+  return (
+    <div className="container">
+      <Alert variant="success">
+        {props.notification.message}
+      </Alert>
+    </div>
+
+  )
 
 
 

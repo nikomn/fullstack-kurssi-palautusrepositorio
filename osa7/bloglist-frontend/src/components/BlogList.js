@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { Table, Form, Button, Alert, Navbar, Nav } from 'react-bootstrap'
 
 import {
   BrowserRouter as Router,
@@ -20,11 +21,23 @@ const BlogList = (props) => {
   return (
     <div>
       <h2>Blogs</h2>
-      {blogs.map(blog =>
-        <div style={blogStyle} className='blog' key={blog.id}>
-          <Link  to={`/blogs/${blog.id}`}>{blog.title} by {blog.author}</Link>
-        </div>
-      )}
+      <Table striped>
+         <tbody>
+          {blogs.map(blog =>
+          <tr key={blog.id}>
+            <td>
+              <Link  to={`/blogs/${blog.id}`}>
+                {blog.title} by {blog.author}
+              </Link>  
+            </td>
+            <td>
+              {blog.user.username}
+            </td>
+          </tr>
+      )}     
+         </tbody>
+      </Table>
+      
     </div>
   )
 

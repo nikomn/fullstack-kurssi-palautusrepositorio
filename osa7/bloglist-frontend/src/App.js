@@ -18,6 +18,8 @@ import BlogPage from './components/BlogPage'
 import { setReducerUser } from './reducers/loginReducer'
 import UserList from './components/Users'
 
+import { Table, Form, Button, Alert, Navbar, Nav } from 'react-bootstrap'
+
 import {
   BrowserRouter as Router,
   Switch, Route, Link
@@ -77,13 +79,36 @@ const App = () => {
 
   if ( !userFromReducer ) {
     return (
-      <div>
+      <div class="container">
 
         <h2>login to application</h2>
 
         <Notification />
 
-        <form onSubmit={handleLogin}>
+        <Form onSubmit={handleLogin}>
+        <Form.Group>
+          <Form.Label>username:</Form.Label>
+          <Form.Control
+            type="text"
+            name="username"
+            id='username'
+            value={username}
+            onChange={({ target }) => setUsername(target.value)}
+          />
+          <Form.Label>password:</Form.Label>
+          <Form.Control
+            type="password"
+            id='password'
+            value={password}
+            onChange={({ target }) => setPassword(target.value)}
+          />
+          <Button variant="primary" type="submit">
+            login
+          </Button>
+        </Form.Group>
+      </Form>
+
+        {/* <form onSubmit={handleLogin}>
           <div>
             username
             <input
@@ -103,19 +128,29 @@ const App = () => {
             />
           </div>
           <button id='login'>login</button>
-        </form>
+        </form> */}
       </div>
     )
   }
   // 7.16: navigointi Tee sovellukseen navigaatiomenu
   // Toteutettu vaiheessa 7.13
   return (
-    <div>
+    <div class="container">
       <Router>
-        <div>
-          <Link style={padding} to="/">home</Link>
-          <Link style={padding} to="/users">users</Link>
-        </div>
+
+      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/">home</Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/users">users</Link>
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
 
         <Switch>
           <Route path="/users/:id">
