@@ -4,17 +4,7 @@ import { setReducerNotification } from '../reducers/notificationReducer'
 import Blog from './Blog'
 import { likeBlog, removeBlog } from '../reducers/blogReducer'
 
-import {
-  BrowserRouter as Router,
-  Switch, Route, Link, useParams, Redirect
-} from 'react-router-dom'
-import NewComment from './NewComment'
-
-/* const Comment = ({ content }) => {
-  return (
-    <li>{content}</li>
-  )
-} */
+import { useParams, Redirect } from 'react-router-dom'
 
 
 const BlogPage = (props) => {
@@ -22,7 +12,7 @@ const BlogPage = (props) => {
   const id = useParams().id
 
   const blogs = useSelector(state => state.blogs)
-  const comments = useSelector(state => state.comments)
+  //const comments = useSelector(state => state.comments)
   const blog = blogs.find(b => b.id === id)
 
 
@@ -45,15 +35,12 @@ const BlogPage = (props) => {
 
   }
 
-  //const handleNewComment = asy
-
   if (!blog) {
     return (
       <Redirect to="/" />
     )
   }
 
-  //const comments = blog.comments
   console.log('Component BLOG updated')
   return (
     <div>
@@ -65,12 +52,6 @@ const BlogPage = (props) => {
         handleRemove={handleRemove}
         own={props.user.username===blog.user.username}
       />
-      {/* <h2>Comments</h2>
-      <ul>
-        {comments.map(comment =>
-          <Comment key={comment.id} content={comment.content} />
-        )}
-      </ul> */}
 
     </div>
   )

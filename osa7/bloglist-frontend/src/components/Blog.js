@@ -1,11 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import NewComment from './NewComment'
-import { useSelector, useDispatch } from 'react-redux'
-import {
-  BrowserRouter as Router,
-  Switch, Route, Link, useParams, Redirect
-} from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
 const Comment = ({ content }) => {
   return (
@@ -26,7 +22,7 @@ const Blog = ({ blog, handleLike, handleRemove, own }) => {
   //console.log('comments_from_State', commentsFromState)
   //console.log('blog from STATE: ', blogFromState)
   //console.log('RENDERING COMPONENT BLOG!')
-  //const comments = useSelector(state => state.comments) 
+  //const comments = useSelector(state => state.comments)
   //const blogComments = blog.comments.filter(c => c.blog === blog.id)
   /* console.log('id...', id)
   const comments = useSelector(state => state.comments)

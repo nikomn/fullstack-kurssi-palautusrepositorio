@@ -5,7 +5,7 @@ import { setReducerNotification } from '../reducers/notificationReducer'
 
 //import { setNotification } from '../reducers/notificationReducer'
 
-const NewBlog = (props) => {
+const NewBlog = () => {
 
   const dispatch = useDispatch()
 
