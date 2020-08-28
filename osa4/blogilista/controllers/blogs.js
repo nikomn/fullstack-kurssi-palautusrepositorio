@@ -7,7 +7,8 @@ const logger = require('../utils/logger')
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog
     .find({}).populate('user', { username: 1, name: 1 })
-
+    .populate('comments', { content: 1 })
+    
   response.json(blogs.map(blog => blog.toJSON()))
   
   /* Blog
