@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 const Blog = ({ blog, handleLike, handleRemove, own }) => {
+  console.log('blog: ', blog)
 
 
   return (
@@ -13,6 +14,14 @@ const Blog = ({ blog, handleLike, handleRemove, own }) => {
         <div>added by {blog.user.name}
           {own&&<button onClick={() => handleRemove(blog.id)}>remove</button>}</div>
       </div>
+      <h2>Comments</h2>
+      <ul>
+      {blog.comments.map(comment =>
+        <div key={comment.id}>
+          <li>{comment.content}</li>
+        </div>
+      )}
+      </ul>
     </div>
   )
 
