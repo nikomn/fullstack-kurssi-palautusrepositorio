@@ -1,5 +1,6 @@
   
 import React from 'react'
+import BirthYearForm from './BirthYearForm'
 
 const Authors = (props) => {
   if (!props.show) {
@@ -30,7 +31,7 @@ const Authors = (props) => {
           )}
         </tbody>
       </table>
-
+      <BirthYearForm />
     </div>
   )
 }
