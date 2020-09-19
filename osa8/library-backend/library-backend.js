@@ -222,6 +222,7 @@ const resolvers = {
             try {
               await author.save()
             } catch (error) {
+              // 8.15 Tietokanta, osa 3?
               throw new UserInputError(error.message, {
                 invalidArgs: args,
               })
@@ -241,6 +242,7 @@ const resolvers = {
           try {
             await book.save()
           } catch (error) {
+            // 8.15 Tietokanta, osa 3?
             throw new UserInputError(error.message, {
               invalidArgs: args,
             })
