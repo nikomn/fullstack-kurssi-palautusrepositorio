@@ -131,6 +131,7 @@ const typeDefs = gql`
         authorCount: Int!
         allBooks(author: String, genre: String): [Book!]!
         countBooksByAuthor: Int!
+        findAuthor(name: String!): Author!
         allAuthors: [Author!]
       }
 
@@ -155,6 +156,8 @@ const resolvers = {
     //authorCount: () => authors.length,
     authorCount: () => Author.collection.countDocuments(),
     allBooks: (root, args) => {
+        // kaikki kyselyt (paitsi kyselyn allBooks parametri author) 
+        // sekä mutaatiot toimivat.
         if (args.author !== undefined) {
             if (args.genre !== undefined) {
                 return books.filter(b => b.author === args.author).filter(q => q.genres.includes(args.genre))
@@ -162,7 +165,8 @@ const resolvers = {
                 return books.filter(b => b.author === args.author)
             }
         } else if (args.genre !== undefined) {
-            return books.filter(b => b.genres.includes(args.genre))
+            //return books.filter(b => b.genres.includes(args.genre))
+            return Book.find( { genres: { $in: [ args.genre ] } } )
         } else {
             //return books
             return Book.find({})
@@ -171,29 +175,48 @@ const resolvers = {
     },
     //allAuthors:() => authors,
     allAuthors: () => Author.find({}),
-    countBooksByAuthor: (root, args) => {
-        const b = books.find(p => p.author === args.name)
+    findAuthor: (root, args) => Author.findOne({ name: args.name }),
+    /* countBooksByAuthor: (root, args) => {
+        //const b = books.find(p => p.author === args.name)
+        const a = Author.findOne( { name: root.name })
+        const b = Book.find( { author: a.id})
         return b.length
-        }
+        //return 0
+        } */
     },
     Author: {
-        bookCount: (root) => {
-          const b = books.filter(p => p.author === root.name)
-          /* console.log('Books by author: ', root.name)
-          console.log(b.length) */
+        bookCount: async (root) => {
+          //const b = books.filter(p => p.author === root.name)
+          //const b = Book.find( { author: root.name } )
+          //const as = Author.find({})
+          //console.log('root on', root.name)
+          //const a = await Author.findOne( { name: root.name })
+          //const person = await Person.findOne({ name: args.name })
+          //console.log('a on:', a)
+          const b = await Book.find( { author: root._id })
+          //console.log('Books by author: ', root.name)
+          //console.log(b.length)
           return b.length
+          //return 0
         }
       },
       Mutation: {
         //addBook: (root, args) => {
           addBook: async (root, args) => {
           //const authorId = null
-          if (books.find(b => b.title === args.title)) {
+          const bookExists = await Book.findOne({ title: args.title })
+          //const t = args.title
+          //const await x = Book.findOne( { title: t} )
+          //console.log('tmp', tmp)
+          //if (books.find(b => b.title === args.title)) {
+          if (bookExists) {
             throw new UserInputError('Book title must be unique', {
               invalidArgs: args.title,
             })
           }
-          if (!authors.find(a => a.name === args.author)) {
+          const authorExists = await Author.findOne({ name: args.author })
+          //if (!authors.find(a => a.name === args.author)) {
+          if (!authorExists) {
             //const author = { name: args.author, id: uuid.v1() }
             const author = new Author({ name: args.author })
             try {
@@ -204,13 +227,16 @@ const resolvers = {
               })
             }
 
-            authors = authors.concat(author)
+            //authors = authors.concat(author)
 
           } 
 
-          const authorId = authors.find(a => a.name == args.author).id
+          //const authorId = authors.find(a => a.name == args.author).id
+          //const authorId = await Author.findOne({ name: args.author })._id
+          const authorId = await Author.findOne({ name: args.author })
+          //console.log('authorId', authorId)
           //const book = { ...args, id: uuid.v1() }
-          const book = new Book({ title: args.title, published: args.published, author: authorId, genres: args.genres })
+          const book = new Book({ title: args.title, published: args.published, author: authorId._id, genres: args.genres })
           //books = books.concat(book)
           try {
             await book.save()
@@ -221,15 +247,26 @@ const resolvers = {
           }
           return book
         },
-        editAuthor: (root, args) => {
-            const author = authors.find(a => a.name === args.name)
+        editAuthor: async (root, args) => {
+            const author = await Author.findOne({ name: args.name })
+            //const author = authors.find(a => a.name === args.name)
             if (!author) {
               return null
             }
+            author.born = args.setBornTo
+
+            try {
+              await author.save()
+            } catch (error) {
+              throw new UserInputError(error.message, {
+                invalidArgs: args,
+              })
+            }
         
-            const updatedAuthor = { ...author, born: args.setBornTo }
-            authors = authors.map(a => a.name === args.name ? updatedAuthor : a)
-            return updatedAuthor
+            //const updatedAuthor = { ...author, born: args.setBornTo }
+            //authors = authors.map(a => a.name === args.name ? updatedAuthor : a)
+            //return updatedAuthor
+            return author
           }   
       }  
 }
