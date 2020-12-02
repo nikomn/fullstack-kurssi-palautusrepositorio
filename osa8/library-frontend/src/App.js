@@ -37,6 +37,7 @@ const App = () => {
       <Books
         show={page === 'books'}
         books={booksResult.data.allBooks}
+        authors={authorsResult.data.allAuthors}
       />
 
       <NewBook
