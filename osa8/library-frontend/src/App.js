@@ -5,7 +5,7 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
-import { ALL_AUTHORS, ALL_BOOKS } from './queries'
+import { ALL_AUTHORS, ALL_BOOKS, ALL_BOOKS_IN_GENRE } from './queries'
 
 
 const Notify = ({ errorMessage }) => {
@@ -29,6 +29,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const authorsResult = useQuery(ALL_AUTHORS)
   const booksResult = useQuery(ALL_BOOKS)
+  //const booksInGenreResult = useQuery(ALL_BOOKS_IN_GENRE)
   const [page, setPage] = useState('authors')
   const client = useApolloClient()
 
