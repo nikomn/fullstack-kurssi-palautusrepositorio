@@ -73,3 +73,11 @@ export const FAVOURITE = gql`
       }
     }
 `
+
+export const BOOK_ADDED = gql`
+  subscription {
+    bookAdded {
+      title
+    }
+  }
+`

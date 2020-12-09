@@ -1,12 +1,12 @@
 
 import React, { useState } from 'react'
-import { useQuery, useApolloClient } from '@apollo/client'
+import { useQuery, useApolloClient, useSubscription } from '@apollo/client'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import RecommendedBooks from './components/RecommendedBooks'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
-import { ALL_AUTHORS, ALL_BOOKS, ALL_BOOKS_IN_GENRE } from './queries'
+import { ALL_AUTHORS, ALL_BOOKS, ALL_BOOKS_IN_GENRE, BOOK_ADDED } from './queries'
 
 
 const Notify = ({ errorMessage }) => {
@@ -49,6 +49,14 @@ const App = () => {
     localStorage.clear()
     client.resetStore()
   }
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      console.log(subscriptionData)
+      //`${addedPerson.name} added`
+      window.alert(`New book ${subscriptionData.data.bookAdded.title} added!`);
+    }
+  })
 
   
 
