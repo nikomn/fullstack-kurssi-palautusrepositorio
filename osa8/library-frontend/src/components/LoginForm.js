@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { useMutation } from '@apollo/client'
-import { LOGIN } from '../queries'
+import { useMutation, useQuery } from '@apollo/client'
+import { LOGIN, FAVOURITE } from '../queries'
 
-const LoginForm = ({ setError, setToken, setPage, show }) => {
+const LoginForm = ({ setError, setToken, setGenre, setPage, show }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  console.log("genre")
 
   const [ login, result ] = useMutation(LOGIN, {
     onError: (error) => {
@@ -12,10 +13,15 @@ const LoginForm = ({ setError, setToken, setPage, show }) => {
     }
   })
 
+  const favouriteGenre = useQuery(FAVOURITE)
+
   useEffect(() => {
     if ( result.data ) {
       const token = result.data.login.value
       setToken(token)
+      const genre = favouriteGenre.data.me.favoriteGenre
+      
+      setGenre(genre)
       localStorage.setItem('booklist-user-token', token)
       setPage('authors')
     }
