@@ -6,7 +6,7 @@ import Books from './components/Books'
 import RecommendedBooks from './components/RecommendedBooks'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
-import { ALL_AUTHORS, ALL_BOOKS, ALL_BOOKS_IN_GENRE, BOOK_ADDED } from './queries'
+import { ALL_AUTHORS, ALL_BOOKS, BOOK_ADDED } from './queries'
 
 
 const Notify = ({ errorMessage }) => {
@@ -53,25 +53,14 @@ const App = () => {
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
       console.log(subscriptionData)
-      //`${addedPerson.name} added`
       window.alert(`New book ${subscriptionData.data.bookAdded.title} added!`);
+      
     }
   })
 
   
 
-  /* if (!token) {
-    return (
-      <div>
-        <Notify errorMessage={errorMessage} />
-        <h2>Login</h2>
-        <LoginForm
-          setToken={setToken}
-          setError={notify}
-        />
-      </div>
-    )
-  } */
+
 
   if (authorsResult.loading)  {
     return <div>loading...</div>

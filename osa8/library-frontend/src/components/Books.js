@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import { useQuery, useApolloClient } from '@apollo/client'
-import { ALL_AUTHORS, ALL_BOOKS_IN_GENRE, ALL_BOOKS } from '../queries'
+import { useQuery } from '@apollo/client'
+import { ALL_BOOKS_IN_GENRE, ALL_BOOKS } from '../queries'
 import Book from './Book'
 
 
 
 const Books = (props) => {
   const [genre, setGenre] = useState('all genres')
-  const authorsResult = useQuery(ALL_AUTHORS)
+  
   const booksResult = useQuery(ALL_BOOKS)
   
   const booksInGenreResult = useQuery(ALL_BOOKS_IN_GENRE,{
@@ -30,20 +30,7 @@ const Books = (props) => {
 
   const bookList = genre === 'all genres' ? booksResult.data.allBooks : booksInGenreResult.data.allBooks
 
-  
 
-  
-
-  
-
-  //const genres = [props.books.filter(b => b.genres.map(g => g))]
-  //const genres = props.books.map(b => b.genres.map(g => g))
-  /* props.books.forEach(book => 
-    book.genres.forEach(genre => genres.push(genre))
-    ); */
-  
-  //const booksInGenre = {genre} !== "all genres" ? props.books : props.books.filter(b => b.genres.includes({genre})) 
-  
 
 
   return (
