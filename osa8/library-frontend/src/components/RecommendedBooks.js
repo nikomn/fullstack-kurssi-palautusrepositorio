@@ -12,7 +12,8 @@ const RecommendedBooks = (props) => {
   const userResult = useQuery(FAVOURITE)
   
   const booksInGenreResult = useQuery(ALL_BOOKS_IN_GENRE,{
-    variables: { genre }
+    variables: { genre },
+    pollInterval: 2000
   })
 
   

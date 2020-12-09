@@ -11,7 +11,8 @@ const Books = (props) => {
   const booksResult = useQuery(ALL_BOOKS)
   
   const booksInGenreResult = useQuery(ALL_BOOKS_IN_GENRE,{
-    variables: { genre }
+    variables: { genre },
+    pollInterval: 2000
   })
 
   

@@ -135,6 +135,7 @@ const App = () => {
 
       <NewBook
         show={page === 'add'}
+        userGenre={genre}
       />
 
       <RecommendedBooks 
