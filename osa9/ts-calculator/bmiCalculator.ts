@@ -1,6 +1,6 @@
 type Result = string;
 
-const calculateBmi = (args: Array<string>) : Result => {
+export const calculateBmi = (args: Array<string>) : Result => {
   if (args.length < 4) throw new Error('Not enough arguments given');
   if (args.length > 4) throw new Error('Too many arguments given');
 
@@ -26,8 +26,14 @@ const calculateBmi = (args: Array<string>) : Result => {
 
 //console.log(calculateBmi(180, 74))
 
+// ex 9.3 Command line: this makes program work from command line,
+// but also makes ex 9.5 WebBMI print one extra error message
+// as this part gets excecuted once while running 
+// npm run dev without args...
+// Works ok. 
 try {
   console.log(calculateBmi(process.argv));
 } catch (e) {
-  console.log('Error, message: ', e.message);
+  console.log('Error while calculating bmi, message: ', e.message);
+  console.log(`args were: `, process.argv)
 }
