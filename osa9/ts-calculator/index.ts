@@ -14,12 +14,12 @@ app.get('/bmi', (req, res) => {
     const bmi = calculateBmi(["", "", String(req.query.height), String(req.query.weight)]);
     //const bmi = 0;
     res.send(JSON.parse(`{
-              "weight": ${req.query.weight},
-              "height": ${req.query.height},
+              "weight": ${Number(req.query.weight)},
+              "height": ${Number(req.query.height)},
               "bmi": "${bmi}"
               }`));
   } catch {
-    res.status(400).send(JSON.parse(`{"error": "malformatted parameters"}`))
+    res.status(400).send(JSON.parse(`{"error": "malformatted parameters"}`));
     //res.send(JSON.stringify('{error: "malformatted parameters"}'))
     //res.send(`{error: "malformatted parameters"}`);
     }  

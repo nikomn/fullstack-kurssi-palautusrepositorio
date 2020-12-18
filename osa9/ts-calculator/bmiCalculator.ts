@@ -22,7 +22,7 @@ export const calculateBmi = (args: Array<string>) : Result => {
   
   
   
-}
+};
 
 //console.log(calculateBmi(180, 74))
 
@@ -34,6 +34,6 @@ export const calculateBmi = (args: Array<string>) : Result => {
 try {
   console.log(calculateBmi(process.argv));
 } catch (e) {
-  console.log('Error while calculating bmi, message: ', e.message);
-  console.log(`args were: `, process.argv)
+  console.log('Error while calculating bmi, message: ', (e as Error).message);
+  console.log(`args were: `, process.argv);
 }

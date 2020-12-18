@@ -15,14 +15,14 @@ interface ExerciseData {
 
 const parseArgs = (args: Array<string>): ExerciseData => {
   if (args.length < 4) throw new Error('Not enough arguments given');
-  var targetVal = 0;
+  let targetVal = 0;
   if (!isNaN(Number(args[2]))) {
     targetVal = Number(args[2]);
   } else {
     throw new Error('Values given are not numbers!');
   }
 
-  var dataArray = [];
+  const dataArray = [];
 
   for (let i = 3; i < args.length; i++) {
     if (!isNaN(Number(args[i]))) {
@@ -38,7 +38,7 @@ const parseArgs = (args: Array<string>): ExerciseData => {
     hours: dataArray
   };
 
-}
+};
 
 const calculateExercises = (dailyExerciseHours: Array<number>, targetValue: number) : ExercisesResult => {
   
@@ -46,7 +46,7 @@ const calculateExercises = (dailyExerciseHours: Array<number>, targetValue: numb
   
   const numberOfTrainingDays = dailyExerciseHours.filter(h => h > 0).length;
   const totalTime = dailyExerciseHours.reduce((a, b) => a + b, 0);
-  var calculatedAverageTime = 0
+  let calculatedAverageTime = 0;
   if (numberOfDays > 0) {
     calculatedAverageTime = totalTime / dailyExerciseHours.length;
   }
@@ -55,8 +55,8 @@ const calculateExercises = (dailyExerciseHours: Array<number>, targetValue: numb
 
   const fromTarget = calculatedAverageTime / targetValue;
 
-  var ratingValue = 0;
-  var ratingDescriptionText = "";
+  let ratingValue = 0;
+  let ratingDescriptionText = "";
 
   if (fromTarget >= 1) {
     ratingValue = 1;
@@ -66,7 +66,7 @@ const calculateExercises = (dailyExerciseHours: Array<number>, targetValue: numb
     ratingDescriptionText = "not bad, but could be beter than this";
   } else {
     ratingValue = 3;
-    ratingDescriptionText = "not too good";;
+    ratingDescriptionText = "not too good";
   }
 
   
@@ -78,14 +78,14 @@ const calculateExercises = (dailyExerciseHours: Array<number>, targetValue: numb
     ratingDescription: ratingDescriptionText,
     target: targetValue,
     average: calculatedAverageTime
-  }
-}
+  };
+};
 
 //console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
 
 try {
   const { targetValue, hours } = parseArgs(process.argv);
-  console.log(calculateExercises(hours, targetValue))
+  console.log(calculateExercises(hours, targetValue));
 } catch (e) {
-  console.log('Error, message: ', e.message);
+  console.log('Error, message: ', (e as Error).message);
 }
