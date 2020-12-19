@@ -8,12 +8,12 @@ interface ExercisesResult {
   average: number;
 }
 
-interface ExerciseData {
+export interface ExerciseData {
   targetValue: number;
   hours: Array<number>;
 }
 
-const parseArgs = (args: Array<string>): ExerciseData => {
+export const parseArgs = (args: Array<string>): ExerciseData => {
   if (args.length < 4) throw new Error('Not enough arguments given');
   let targetVal = 0;
   if (!isNaN(Number(args[2]))) {
@@ -40,7 +40,7 @@ const parseArgs = (args: Array<string>): ExerciseData => {
 
 };
 
-const calculateExercises = (dailyExerciseHours: Array<number>, targetValue: number) : ExercisesResult => {
+export const calculateExercises = (dailyExerciseHours: Array<number>, targetValue: number) : ExercisesResult => {
   
   const numberOfDays = dailyExerciseHours.length;
   
@@ -88,4 +88,5 @@ try {
   console.log(calculateExercises(hours, targetValue));
 } catch (e) {
   console.log('Error, message: ', (e as Error).message);
+  console.log(`args were: `, process.argv);
 }
