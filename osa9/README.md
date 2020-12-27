@@ -15,9 +15,9 @@ https://github.com/nikomn/patientor
 - [x] 9.7 WebExercises
 - [x] 9.8: Patientor backend, step1
 - [x] 9.9: Patientor backend, step2
-- [] 9.10: Patientor backend, step3
-- [] 9.11: Patientor backend, step4
-- [] 9.12: Patientor backend, step5
+- [x] 9.10: Patientor backend, step3
+- [x] 9.11: Patientor backend, step4
+- [x] 9.12: Patientor backend, step5
 - [] 9.13: Patientor backend, step6
 - [] 9.14.
 - [] 9.15.
