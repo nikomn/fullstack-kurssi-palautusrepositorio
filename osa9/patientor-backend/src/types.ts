@@ -1,3 +1,9 @@
+export enum Gender {
+  Other = 'other',
+  Male = 'male',
+  Female = 'female',
+}
+
 export interface Diagnose {
   code: string;
   name: string;

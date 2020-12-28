@@ -1,6 +1,9 @@
 import patients from '../../data/patients.json';
 import { NonSensitivePatientData, Patient, NewPatient } from '../types';
 
+import crypto from "crypto";
+
+
 const getPatients = (): NonSensitivePatientData [] => {
   return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
     id,
@@ -12,8 +15,9 @@ const getPatients = (): NonSensitivePatientData [] => {
 };
 
 const addPatient = ( patient: NewPatient ): Patient => {
+  const newId = crypto.randomBytes(16).toString("hex");
   const newPatient = {
-    id: "uusi-id-1234",
+    id: newId,
     ...patient
   };
 
