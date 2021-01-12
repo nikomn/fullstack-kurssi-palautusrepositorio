@@ -20,8 +20,8 @@ https://github.com/nikomn/patientor
 - [x] 9.12: Patientor backend, step5
 - [x] 9.13: Patientor backend, step6
 - [x] 9.14.
-- [] 9.15.
-- [] 9.16: patientor, step1
+- [x] 9.15.
+- [x] 9.16: patientor, step1
 - [] 9.17: patientor, step2
 - [] 9.18: patientor, step3
 - [] 9.19: patientor, step4
