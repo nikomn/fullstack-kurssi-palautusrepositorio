@@ -1,5 +1,5 @@
 import patients from '../../data/patients.json';
-import { NonSensitivePatientData, Patient, NewPatient } from '../types';
+import { NonSensitivePatientData, Patient, NewPatient, Entry } from '../types';
 
 import crypto from "crypto";
 
@@ -12,6 +12,22 @@ const getPatients = (): NonSensitivePatientData [] => {
     gender,
     occupation,
   }));
+};
+
+const findById = ( id: string ): Patient | undefined => {
+  const patient = patients.find(p => p.id === id) as Patient;
+  const entryList: Entry[] = [];
+
+  if (patient && !patient?.entries) {
+    return {
+      ...patient,
+      entries: entryList
+    }; 
+  } else {
+    return undefined;
+  }
+  
+
 };
 
 const addPatient = ( patient: NewPatient ): Patient => {
@@ -31,5 +47,6 @@ const addPatient = ( patient: NewPatient ): Patient => {
 
 export default {
   getPatients,
-  addPatient
+  addPatient,
+  findById,
 };

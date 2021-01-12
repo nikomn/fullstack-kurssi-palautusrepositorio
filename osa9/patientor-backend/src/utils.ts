@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NewPatient, Gender } from './types';
+import { NewPatient, Gender, Entry } from './types';
 
 const parseName = (name: any): string => {
   if (!name || !typeIsString(name)) {
@@ -55,12 +55,14 @@ const parseGender = (gender: any): Gender => {
 };
 
 const toNewPatient = (object: any): NewPatient => {
+  const entryList: Entry[] = [];
   const addedPatient: NewPatient = {
     name: parseName(object.name),
     dateOfBirth: parseDateOfBirth(object.dateOfBirth),
     ssn: parseSsn(object.ssn),
     gender: parseGender(object.gender),
     occupation: parseOccupation(object.occupation),
+    entries: entryList,
   };
 
   return addedPatient;
