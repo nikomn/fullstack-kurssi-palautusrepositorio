@@ -2,7 +2,36 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NewPatient, Gender, Entry } from './types';
+import { NewPatient, Gender, Entry, EntryType } from './types';
+
+const typeIsEntry = (type: string): boolean => {
+  return (type === EntryType.HealthCheck 
+    || type === EntryType.Hospital 
+    || type === EntryType.OccupationalHealthcare);
+  
+};
+
+const parseEntry = (entry: any): Entry => {
+  if (!entry || !typeIsEntry(entry)) {
+    throw new Error('Incorrect or missing type: ' + entry.type);
+  }
+  return entry as Entry;
+};
+
+const parseEntries = (entries: any[]): Entry[] => {
+  for (let i = 0; i < entries.length; i++) {
+    console.log(entries[i].type);
+    try {
+      parseEntry(entries[i]);
+    } catch (error) {
+      console.log("Error in entry: ", error);
+      throw new Error('Incorrect or missing entry: ' + entries[i]);
+      
+    }
+  }
+
+  return entries as Entry[];
+};
 
 const parseName = (name: any): string => {
   if (!name || !typeIsString(name)) {
@@ -55,14 +84,14 @@ const parseGender = (gender: any): Gender => {
 };
 
 const toNewPatient = (object: any): NewPatient => {
-  const entryList: Entry[] = [];
+  //const entryList: Entry[] = [];
   const addedPatient: NewPatient = {
     name: parseName(object.name),
     dateOfBirth: parseDateOfBirth(object.dateOfBirth),
     ssn: parseSsn(object.ssn),
     gender: parseGender(object.gender),
     occupation: parseOccupation(object.occupation),
-    entries: entryList,
+    entries: parseEntries(object.entries),
   };
 
   return addedPatient;
