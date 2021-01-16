@@ -83,3 +83,5 @@ export type PublicPatient = Omit<Patient, 'ssn' | 'entries'>;
 export type NonSensitivePatientData = Omit<Patient, 'ssn' | 'entries'>;
 
 export type NewPatient = Omit<Patient, 'id'>;
+
+export type NewEntry = Omit<Entry, 'id'>;
