@@ -4,6 +4,15 @@
 
 https://github.com/nikomn/patientor
 
+Repositorioon tehty front-end puolen muokkaukset, eli tehtävät:
+
+- 9.17: patientor, step2
+- 9.18: patientor, step3
+- 9.20: patientor, step5
+- 9.21: patientor, step6
+- 9.22: patientor, step7
+- 9.24: patientor, step9
+
 ## Tehtävät
 
 - [x] 9.1 Body mass index
@@ -27,9 +36,9 @@ https://github.com/nikomn/patientor
 - [x] 9.19: patientor, step4
 - [x] 9.20: patientor, step5
 - [x] 9.21: patientor, step6
-- [] 9.22: patientor, step7
-- [] 9.23: patientor, step8
-- [] 9.24: patientor, step9
+- [x] 9.22: patientor, step7
+- [x] 9.23: patientor, step8
+- [x] 9.24: patientor, step9
 - [] 9.25: patientor, step10
 - [] 9.26: patientor, step11
 - [] 9.27: patientor, step12
